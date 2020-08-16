@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> My First Express App</title>
+
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
+  		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	</head>
+	<body>
+		<h1>Hello</h1>
+		<table>
+			<tr><th>Name</th><th>Roll No</th><th>Update details</th><th>Remove Student</th></tr>
+			<% var keys = Object.keys(students)%>
+			<% keys.forEach(function(key){ %>
+			<tr>
+				<td><%=(students[key].Name)%></td>
+				<td><%=(students[key].Rno)%></td>
+				<% var link1 = '/admin_change/?name='+students[key].Name+'&id='+key%>
+				<td><a href=<%=link1%>><button>Update</button></a></td>
+				<% var link = '/admin_remove/?name='+students[key].Name+'&id='+key%>
+				<td><a href=<%=link%>><button>Remove</button></a></td>
+			</tr>
+				<%});%>
+		</table><br/>
+		<a href="/admin_add"><button>Add Student</button></a>
+		<a href="/admin_home"><button>Back to home page</button></a>
+	</body>
+</html>

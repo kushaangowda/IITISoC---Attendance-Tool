@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> My First Express App</title>
+
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
+  		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	</head>
+	<body>
+		<h1>Hello</h1>
+
+		<%if(0){ %>
+		<p>Please <a href='/admin_login'>login</a></p>
+		<%}else{ %>
+
+		<form method="post">
+			<p>Date: <input type="date" name="date" required="true" /></p>
+			<input type="submit" name="submit" value="Submit">
+		</form>
+		<% if(typeof error != "undefined"){ %>
+		<p><%= error%></p>
+		<%}else if(typeof students != "undefined"){%>
+			<table>
+				<tr><th>Name</th><th>Rno</th></tr>
+				<% var keys = Object.keys(students)%>
+				<% keys.forEach(function(key){ %>
+					<tr>
+						<td><%=key%></td>
+						<td><%= students[key].Rno%>	</td>
+					</tr>
+				<%});%>
+			</table><br/>
+		<%}else{%>
+			<p>Please select a date</p>
+		<%}%>
+		<a href="/admin_change_details">Manage</a>
+		<a href="/logout"><button>SignOut</button></a>
+
+		<%} %>
+
+	</body>
+</html>
