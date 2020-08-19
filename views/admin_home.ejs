@@ -12,6 +12,11 @@
 
 	</head>
 	<body>
+		<nav>
+			<a href="/admin_home" class="active">Home</a>
+			<a href="/admin_change_details">Manage</a>
+			<a href="/admin_profile">Profile</a>
+		</nav>
 		<h1>Hello</h1>
 
 		<%if(0){ %>
@@ -20,11 +25,13 @@
 
 		<form method="post">
 			<p>Date: <input type="date" name="date" required="true" /></p>
+			<p>Year of admission: <input type="number" name="year" required="true" /></p>
 			<input type="submit" name="submit" value="Submit">
 		</form>
 		<% if(typeof error != "undefined"){ %>
 		<p><%= error%></p>
 		<%}else if(typeof students != "undefined"){%>
+			<h4>List of Absentees</h4>
 			<table>
 				<tr><th>Name</th><th>Rno</th></tr>
 				<% var keys = Object.keys(students)%>
@@ -36,10 +43,10 @@
 				<%});%>
 			</table><br/>
 		<%}else{%>
-			<p>Please select a date</p>
+			<p>Please select date, and year of admission</p>
 		<%}%>
-		<a href="/admin_change_details">Manage</a>
-		<a href="/logout"><button>SignOut</button></a>
+		
+		
 
 		<%} %>
 

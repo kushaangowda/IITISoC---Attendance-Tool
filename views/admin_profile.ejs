@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> My First Express App</title>
+
+		<script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+
+		<script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-auth.js"></script>
+
+		
+  		
+	</head>
+	<body>
+		<nav>
+			<a href="/admin_home" class="active">Home</a>
+			<a href="/admin_change_details">Manage</a>
+			<a href="/admin_profile">Profile</a>
+		</nav>
+		<h1> Profile </h1>
+		<p>Username: <%=username%></p>
+		<a href="/admin_change_password"><button>change password</button></a>
+		<a href="/logout"><button>SignOut</button></a>
+	</body>
+</html>

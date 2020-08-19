@@ -13,6 +13,11 @@
 
 	</head>
 	<body>
+		<nav>
+			<a href="/admin_home" class="active">Home</a>
+			<a href="/admin_change_details">Manage</a>
+			<a href="/admin_profile">Profile</a>
+		</nav>
 		<h1> Hello </h1>
 
 		<% var keys = Object.keys(students)%>
@@ -20,10 +25,10 @@
 			<% if((key)==id){%>
 			<p>Name: <%= students[key].Name%></p>
 			<p>Roll No: <%= students[key].Rno%></p>
+			<p>Year of admission: <%= year%></p>
 			
 			<% }});%>
-			<% var link = '/remove/?id='+id%>
+			<% var link = '/remove/?id='+id+'&year='+year%>
 			<a href=<%=link%>><button >Remove this student</button></a><br/>
-			<p><a href='/admin_home' style="text-decoration: none;">Back to home</a><p>
 	</body>
 </html>

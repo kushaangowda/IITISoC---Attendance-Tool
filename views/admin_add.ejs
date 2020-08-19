@@ -4,13 +4,18 @@
 		<title> My First Express App</title>
   		
 	</head>
-	<body>
+	<body>		
+		<nav>
+			<a href="/admin_home" class="active">Home</a>
+			<a href="/admin_change_details">Manage</a>
+			<a href="/admin_profile">Profile</a>
+		</nav>
 		<h1> Hello </h1>
 		<form method="post">
 			<p>Name: <input type="text" name="name" required="true"/></p>
 			<p>Roll no: <input type="number" name="rno" required="true"/></p>
+			<p>Year of admission: <input type="number" name="year" required="true"/></p>
 			<button type="submit">Add</button>
 		</form>
-		<p><a href='/admin_home' style="text-decoration: none;">Back to home</a><p>
 	</body>
 </html>

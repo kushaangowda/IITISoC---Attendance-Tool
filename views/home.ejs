@@ -44,20 +44,26 @@
 	
 	<body>
 		<h1>Hello</h1>
+		<form method='post'>
+			<p>Year of admission: <input type="number" name="year" required="true" /></p>
+			<p><input type="submit" name="submit" value="submit"></p>
+		</form>
 		<table>
-			<tr><th>Name</th><th>Roll No</th><th>Attendance</th></tr>
-			<% var keys = Object.keys(students)%>
-			<% keys.forEach(function(key){ %>
-			<tr>
-				<td><%=(students[key].Name)%></td>
-				<td><%=(students[key].Rno)%></td>
-				<td><%=(students[key].Attendance)%></td>
-				<% var link = '/mark_attendance/?name='+students[key].Name+'&id='+key%>
-				<%if((students[key].Attendance)==false){%>
-				<td><a href=<%=link%>><button>Mark Attendance</button></a></td>
-				<%}%>
-			</tr>
+			<% if (typeof students!='undefined'){%>
+				<tr><th>Name</th><th>Roll No</th><th>Attendance</th></tr>
+				<% var keys = Object.keys(students)%>
+				<% keys.forEach(function(key){ %>
+				<tr>
+					<td><%=(students[key].Name)%></td>
+					<td><%=(students[key].Rno)%></td>
+					<td><%=(students[key].Attendance)%></td>
+					<% var link = '/mark_attendance/?id='+key%>
+					<%if((students[key].Attendance)==false){%>
+					<td><a href=<%=link%>><button>Mark Attendance</button></a></td>
+					<%}%>
+				</tr>
 				<%});%>
+			<%}%>
 		</table><br/>
 		<p>Not Student, <a href="/">Click here</a></p>
 		

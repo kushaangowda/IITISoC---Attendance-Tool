@@ -9,24 +9,57 @@
 
 
   		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  		<script type="text/javascript">
+  			// function select_all(){
+  			// 	if(document.getElementById('remove_all').checked==true){
+  			// 		console.log(document.getElementById('remove_all').checked);
+  			// 		for(var i=0;i<Number(document.getElementById('count').innerHTML);i++){
+  			// 		document.getElementsByClassName('checkbox1')[i].setAttribute('checked',"true");}
+  			// 	}else{
+  			// 		console.log(document.getElementById('remove_all').checked);
+  			// 		for(var i=0;i<Number(document.getElementById('count').innerHTML);i++){
+  			// 		document.getElementsByClassName('checkbox1')[i].setAttribute('checked',"false");}  				
+  			// 	}
+  			// }
+  		</script>
 	</head>
 	<body>
+		<nav>
+			<a href="/admin_home" class="active">Home</a>
+			<a href="/admin_change_details">Manage</a>
+			<a href="/admin_profile">Profile</a>
+		</nav>
 		<h1>Hello</h1>
-		<table>
-			<tr><th>Name</th><th>Roll No</th><th>Update details</th><th>Remove Student</th></tr>
-			<% var keys = Object.keys(students)%>
-			<% keys.forEach(function(key){ %>
-			<tr>
-				<td><%=(students[key].Name)%></td>
-				<td><%=(students[key].Rno)%></td>
-				<% var link1 = '/admin_change/?name='+students[key].Name+'&id='+key%>
-				<td><a href=<%=link1%>><button>Update</button></a></td>
-				<% var link = '/admin_remove/?name='+students[key].Name+'&id='+key%>
-				<td><a href=<%=link%>><button>Remove</button></a></td>
-			</tr>
-				<%});%>
-		</table><br/>
-		<a href="/admin_add"><button>Add Student</button></a>
-		<a href="/admin_home"><button>Back to home page</button></a>
+		<form method="post">
+			<p>Year of admission: <input type="number" name="year" /></p>
+			<p><input type="submit" name="submit" value="submit"></p>
+		</form>
+		<% if(typeof students!='undefined'){%>
+			<table>
+				<tr>
+					<!-- <th><form method="post"><p><input type="checkbox" name="a" id="remove_all" style="opacity: 1; pointer-events: visible;" onclick='select_all()'></p></form></th> -->
+					<th>Name</th><th>Roll No</th><th>Update details</th><th>Remove Student</th></tr>
+				<% var keys = Object.keys(students)%>
+				<% var count = 0;%>
+				<% keys.forEach(function(key){ %>
+				<tr>
+					<!-- <td><form method="post"><p><input type="checkbox" style="opacity: 1; pointer-events: visible;" class="checkbox1" checked="false"></p></form></td> -->
+					<%count = count+1;%>
+					<td><%=(students[key].Name)%></td>
+					<td><%=(students[key].Rno)%></td>
+					<% var link1 = '/admin_change/?id='+key+'&year='+year%>
+					<td><a href=<%=link1%>><button>Update</button></a></td>
+					<% var link = '/admin_remove/?id='+key+'&year='+year%>
+					<td><a href=<%=link%>><button>Remove</button></a></td>
+				</tr>
+					<%});%>
+			</table><br/>
+			<p id="count" style="display: none;"><%=count%></p>
+		
+		<%}else{%>
+			<p>Error</p>
+		<%}%>
+		<a href="/admin_add_choice"><button>Add Students</button></a>
+		<!-- <a href="/admin_add"><button>Remove Selected</button></a> -->
 	</body>
 </html>
