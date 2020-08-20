@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title> My First Express App</title>
+
+	<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+
+	<link type="text/css" href="/Mark_attendance.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<script type="text/javascript">
+		function store_data() {
+			var d = new Date();
+			var date = d.getDate();
+			var i = date % 8;
+			window.localStorage.setItem("check", i);
+		}
+		function check_if_allowed() {
+			var d = new Date();
+			var date = d.getDate();
+			var i = date % 8;
+			var check = localStorage.getItem("check");
+			if (i == check)
+				return 0;
+			else
+				return 1;
+		}
+		function both() {
+			if (check_if_allowed()) {
+				store_data();
+				var link = document.getElementById('link').innerHTML;
+				window.location.replace(link);
+			}
+			else {
+				window.alert('attendance marked already');
+			}
+		}
+	</script>
+
+</head>
+
+<body>
+ <!-- style="
+             background-image: url(https://source.unsplash.com/1600x1600/?study);
+             background-repeat: no-repeat;
+             height:100%;
+             text-align: center;"> -->
+	<!-- <h1> Hello </h1>
+		 -->
+
+	<nav class="navbar navbar-light bg-dark" >
+	<!-- style="
+    margin-bottom: 53px;
+"> -->
+		<span class="navbar-brand mb-0 h1 text-light" >
+			<!-- style="
+    font-family: sans-serif;
+    font-size: xx-large;
+    text-align: center;
+    margin: auto;
+"> -->
+Mark Your attendance here</span>
+	</nav>
+	<div class="container">
+
+		<% var keys = Object.keys(students)%>
+		<% keys.forEach(function(key){ %>
+		<% if((key)==id){%>
+		<p>Name: <%= students[key].Name%></p>
+		<p>Roll No: <%= students[key].Rno%></p>
+
+		<% }});%>
+		<% var link = '/update/?id='+id%>
+		<button onclick='both()' type="submit" class="btn btn-primary d-inline">Mark Attendance</button>
+		<a href='/home_student' ><button type="submit" class="btn btn-primary mx-2">Back
+				To Home</button></a>
+		<p id='link' style="display: none;"><%=link%></p>
+	</div>
+
+	<!-- <p>You have already marked your attendance</p> -->
+
+</body>
+
+</html>
