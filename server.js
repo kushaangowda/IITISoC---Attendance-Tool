@@ -311,8 +311,14 @@ async function mark_attendance_stuff(res,req) {
   if (!doc.exists) {
     console.log('No such document!');
   } else {
+  	var doc1 = await total_days_list.get();
+	var t = doc1.data();
+	var total_days = 0;
+	for(key in t){
+		total_days = t[key];	
+	}
     console.log('Document data:', doc.data());
-    res.render('Mark_attendance.ejs',{students:doc.data(),id:req.query.id});
+    res.render('Mark_attendance.ejs',{students:doc.data(),id:req.query.id,total_days:total_days});
   }
 }
 
@@ -897,3 +903,9 @@ app.post('/admin_add_excel_file', function(req, res) {
         })
 })
 
+
+
+
+app.use(function (req,res,next){
+	res.status(404).render('404error.ejs');
+});
