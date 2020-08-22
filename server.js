@@ -15,7 +15,9 @@ const xlsxtojson = require("xlsx-to-json-lc");
 const xlstojson = require("xls-to-json-lc");
 const multer = require('multer');
 const nodemailer = require('nodemailer');
-
+const Entities = require('html-entities').XmlEntities;
+const md5 = require('md5');
+const entities = new Entities();
 //------------------------------------------------------------------------------------------------------------------------------
 //copy from settings/service accounts in firebase
 //------------------------------------------------------------------------------------------------------------------------------
@@ -41,6 +43,7 @@ const admin_student_2019_list = db.collection('admin').doc('student list 2019');
 const admin_student_2020_list = db.collection('admin').doc('student list 2020');
 const admin_user_list = db.collection("admin_users").doc('admin users list');
 const reset_list = db.collection("reset token").doc("token");
+const total_days_list = db.collection("total_days").doc("total_days");
 
 var port = process.env.PORT || 3000;
 
@@ -138,7 +141,7 @@ app.get('/admin_add_excel_file',(req,res)=>{
 	if(!req.session.user || !req.cookies.user_sid){
 		res.redirect('/admin_login')
 	}
-	res.render('admin_add_excel_file.ejs');
+	res.render('admin_add_excel_file.ejs',{user:req.session.user});
 })
 
 app.get('/admin_profile',(req,res)=>{
@@ -187,7 +190,7 @@ app.get('/admin_change_details',(req,res)=>{
 	if(!req.session.user || !req.cookies.user_sid){
 		res.redirect('/admin_login')
 	}
-	res.render('admin_change_details.ejs')
+	res.render('admin_change_details.ejs',{user:req.session.user})
 })
 
 app.post('/admin_change_details',(req,res)=>{
@@ -195,7 +198,7 @@ app.post('/admin_change_details',(req,res)=>{
 		res.redirect('/admin_login')
 	}
 	var year = req.body.year;
-	admin_change_details_stuff(year,res);
+	admin_change_details_stuff(year,res,req);
 })
 
 
@@ -203,7 +206,7 @@ app.get('/admin_add',(req,res)=>{
 	if(!req.session.user || !req.cookies.user_sid){
 		res.redirect('/admin_login')
 	}
-	res.render('admin_add.ejs');
+	res.render('admin_add.ejs',{user:req.session.user});
 })
 
 app.get('/admin_change',(req,res)=>{
@@ -241,7 +244,7 @@ app.get('/admin_home',(req,res)=>{
 	if(!req.session.user || !req.cookies.user_sid){
 		res.redirect('/admin_login')
 	}
-	res.render('admin_home.ejs');
+	res.render('admin_home.ejs',{user:req.session.user});
 })
 
 // app.get('/logout',(req,res)=>{
@@ -253,7 +256,7 @@ app.get('/admin_add_choice',(req,res)=>{
 	if(!req.session.user || !req.cookies.user_sid){
 		res.redirect('/admin_login')
 	}
-	res.render('admin_add_choice.ejs');
+	res.render('admin_add_choice.ejs',{user:req.session.user});
 })
 
 // app.post('/',(req,res)=>{
@@ -272,7 +275,7 @@ async function admin_change_password_stuff(old_pass,new_pass1,new_pass2,req,res)
     	console.log('Document data:', doc.data());
     	for(key in doc.data()){
     		if(key==req.session.user){
-    			if(old_pass!=adminList[key]){
+    			if(md5(md5(md5(old_pass)))!=adminList[key]){
 					res.render('admin_change_password.ejs',{error:'Old password is incorrect'});
 				}
 				else if(new_pass1!=new_pass2){
@@ -295,6 +298,7 @@ async function home_student_stuff(year,res) {
   const doc = await docRef.get();
   if (!doc.exists) {
     console.log('No such document!');
+    res.render('home.ejs',{error:'Invalid year'});
   } else {
     console.log('Document data:', doc.data());
     res.render('home.ejs',{students:doc.data()});
@@ -355,8 +359,7 @@ async function admin_forgot_password_stuff(user,res) {
 			  from: 'no-reply@gmail.com',
 			  to: user,
 			  subject: 'Reset Password',
-			  text: 'Here is the link',
-			  html: '<a href="/admin_reset_password/?s='+token+'">Click here</a>'
+			  html: '<p>Click the link given below to reset your password</p><a href="localhost:3000/admin_reset_password/?s='+token+'">Click here</a>'
 			};
 
 			transporter.sendMail(mailOptions, function(error, info){
@@ -364,7 +367,7 @@ async function admin_forgot_password_stuff(user,res) {
 			    	console.log(error);
 			  	} else {
 			    	console.log('Email sent: ' + info.response);
-			    	res.redirect('/admin_login');
+			    	res.render('admin_forgot_password.ejs',{success:'Mail sent successfully'});
 			  	}
 			}); 
 
@@ -376,15 +379,22 @@ async function admin_forgot_password_stuff(user,res) {
   }
 }
 
-async function admin_change_details_stuff(year1,res) {
+async function admin_change_details_stuff(year1,res,req) {
   // [START get_document]
   var docRef = db.collection('Student').doc(year1+' list');
   const doc = await docRef.get();
   if (!doc.exists) {
     console.log('No such document!');
+    res.render('admin_change_details.ejs',{user:req.session.user,error:'invalid year of admission'})
   } else {
+  	var doc1 = await total_days_list.get();
+	var t = doc1.data();
+	var total_days = 0;
+	for(key in t){
+		total_days = t[key];	
+	}
     console.log('Document data:', doc.data());
-    res.render('admin_change_details.ejs',{students:doc.data(),year:year1});
+    res.render('admin_change_details.ejs',{user:req.session.user,students:doc.data(),year:year1,total_days:total_days});
   }
 }
 
@@ -395,8 +405,14 @@ async function admin_remove_stuff(res,req) {
   if (!doc.exists) {
     console.log('No such document!');
   } else {
+  	var doc1 = await total_days_list.get();
+	    var t = doc1.data();
+	    var total_days = 0;
+	    for(key in t){
+	    	total_days = t[key];	
+	    }
     console.log('Document data:', doc.data());
-    res.render('admin_remove.ejs',{students:doc.data(),id:req.query.id,year:req.query.year});
+    res.render('admin_remove.ejs',{students:doc.data(),id:req.query.id,year:req.query.year,user:req.session.user,total_days:total_days});
   }
 }
 
@@ -408,7 +424,7 @@ async function admin_change_stuff(res,req) {
     console.log('No such document!');
   } else {
     console.log('Document data:', doc.data());
-    res.render('admin_change.ejs',{students:doc.data(),id:req.query.id,year:req.query.year});
+    res.render('admin_change.ejs',{students:doc.data(),id:req.query.id,year:req.query.year,user:req.session.user});
   }
 }
 
@@ -425,8 +441,13 @@ app.post('/admin_add', function(req, res){
 
     var name = (req.body.name);
     var rno = (req.body.rno);
+    var hostelname = (req.body.hostelname);
+    var roomno = (req.body.roomno);
+    var branchname = (req.body.branchname);
+    var emailid = (req.body.emailid);
+    var phoneno = (req.body.phoneno);
     var year = req.body.year;
-    admin_add_stuff(name,rno,year,res);
+    admin_add_stuff(name,rno,hostelname,roomno,branchname,emailid,phoneno,year,res,req);
 });
 
 app.post('/admin_change', function(req, res){
@@ -436,8 +457,13 @@ app.post('/admin_change', function(req, res){
 
     var name = (req.body.name);
     var rno = (req.body.rno);
-    var year = req.body.year;
-    admin_change_post_stuff(name,rno,year,res,req);
+    var hostelname = (req.body.hostelname);
+    var roomno = (req.body.roomno);
+    var branchname = (req.body.branchname);
+    var emailid = (req.body.emailid);
+    var phoneno = (req.body.phoneno);
+    var year = req.query.year;
+    admin_change_post_stuff(name,rno,hostelname,roomno,branchname,emailid,phoneno,year,res,req);
 });
 
 app.post('/admin_login', function(req,res){
@@ -454,7 +480,7 @@ app.post('/admin_home', function(req, res){
 	var year = req.body.year;
     var date = (req.body.date);
     console.log(date);
-    admin_home_post_stuff(date,year,res);
+    admin_home_post_stuff(date,year,res,req);
 });
 
 app.get('/admin_reset_password',(req,res)=>{
@@ -480,6 +506,15 @@ async function admin_reset_password_post_stuff(res,s,pass1,pass2){
 			if(list[key].token == s){
 				c=1;
 				var username = key+'.com';
+				// var data2=bcrypt.hash(pass1, 9, function(err, hash) {
+				// 	console.log(entities.encode(hash))
+				// 	var data1={
+				// 		[`${username}`]:entities.encode(hash)
+				// 	}
+    // 				return data1;
+				// });
+				pass1 = md5(md5(md5(pass1)));
+				console.log(pass1)
 				var data = {
 					[`${username}`]:pass1
 				}
@@ -523,12 +558,13 @@ async function admin_reset_password_stuff(s,res){
 
 
 
-async function admin_add_stuff(name,rno,year,res) {
+async function admin_add_stuff(name,rno,hostelname,roomno,branchname,emailid,phoneno,year,res,req) {
   // [START get_document]
   var docRef = db.collection('Student').doc(year+' list');
   const doc = await docRef.get();
   if (!doc.exists) {
     console.log('No such document!');
+    res.render('admin_add.ejs',{user:req.session.user,error:'document for the given year of admission not found'});
   } else {
     console.log('Document data:', doc.data());
     var i=0;
@@ -548,16 +584,22 @@ async function admin_add_stuff(name,rno,year,res) {
 		[`${i}`]:{
 			Attendance: false,
 			Name: name,
-			Rno: Number(rno)
+			Rno: Number(rno),
+			TotalAttendance: Number(0),
+			HostelName: hostelname,
+			RoomNo: roomno,
+			EmailID: emailid,
+			PhoneNo: Number(phoneno),
+			BranchName: branchname
 		}
 	};
 	docRef.set(data,{merge:true});
-	res.redirect('/admin_change_details');
+	res.render('admin_add.ejs',{user:req.session.user,success:'student added successfully'});
     
   }
 }
 
-async function admin_change_post_stuff(name,rno,year,res,req) {
+async function admin_change_post_stuff(name,rno,hostelname,roomno,branchname,emailid,phoneno,year,res,req) {
   // [START get_document]
   var docRef = db.collection('Student').doc(year+' list');
   const id = req.query.id;
@@ -566,18 +608,22 @@ async function admin_change_post_stuff(name,rno,year,res,req) {
     console.log('No such document!');
   } else {
     console.log('Document data found', doc.data());
+	    var data = {
+			[`${id}`]:{
+				Attendance: false,
+				Name: name,
+				Rno: Number(rno),
+				TotalAttendance: Number(0),
+				HostelName: hostelname,
+				RoomNo: roomno,
+				EmailID: emailid,
+				PhoneNo: Number(phoneno),
+				BranchName: branchname
+			}
+		};
+		docRef.set(data,{merge:true});
+		res.redirect('/admin_change_details');
   }
-    
-
-    var data = {
-		[`${id}`]:{
-			Attendance: false,
-			Name: name,
-			Rno: Number(rno)
-		}
-	};
-	docRef.set(data,{merge:true});
-	res.redirect('/admin_change_details');
 }
 
 async function admin_change_password_stuff1(password,req,res) {
@@ -588,17 +634,16 @@ async function admin_change_password_stuff1(password,req,res) {
     console.log('No such document!');
   } else {
     console.log('Document data found', doc.data());
-  }
-    
-
+    password = md5(md5(md5(password)));
     var data = {
 		[`${req.session.user}`]:password
 	};
 	docRef.set(data,{merge:true});
 	res.redirect('/admin_profile');
+  }
 }
 
-async function admin_home_post_stuff(fulldate,year1,res) {
+async function admin_home_post_stuff(fulldate,year1,res,req) {
   // [START get_document]
   	const fullDate = String(fulldate);
   	var year = (fullDate.slice(0,4));
@@ -616,20 +661,26 @@ async function admin_home_post_stuff(fulldate,year1,res) {
 	const student = doc.data();
   	if (!doc.exists) {
     	console.log('No such document!');
-    	res.render('admin_home.ejs',{error:'invalid date or year of admission'});
+    	res.render('admin_home.ejs',{user:req.session.user,error:'invalid date or year of admission'});
   	} else {
     	console.log('Document data found', doc.data());
+    	var doc1 = await total_days_list.get();
+	    var t = doc1.data();
+	    var total_days = 0;
+	    for(key in t){
+	    	total_days = t[key];	
+	    }
     	var c=0;
     	for(key in doc.data()){
     		if(key==fullDateModified){
     			var doc1 = student[key];
     			c=1;
-    			res.render('admin_home.ejs',{students:doc1});
+    			res.render('admin_home.ejs',{user:req.session.user,students:doc1,total_days:total_days});
     			break;
     		}
     	}
     	if(c==0){
-    		res.render('admin_home.ejs',{error:'invalid date or year of admission'});
+    		res.render('admin_home.ejs',{user:req.session.user,error:'invalid date or year of admission'});
     	}
   	}
 }
@@ -688,6 +739,17 @@ async function add_data_to_admin(){
 	var year = d.getFullYear();
 	var fullDate = date + '-' + month + '-' + year;
 	var CollRef = db.collection('Student');
+	var doc = await total_days_list.get();
+	var totDay = doc.data();
+	var totalDays = 0;
+	for(key in doc.data()){
+		totalDays = Number(totDay[key]);
+	}
+	totalDays = totalDays + 1;
+	var data = {
+		total_days: totalDays
+	};
+	total_days_list.set(data);
 
 	const snapshot = await CollRef.get();
 	snapshot.forEach(doc => {
@@ -699,11 +761,22 @@ async function add_data_to_admin(){
 	  			var data = {
 	  				[`${fullDate}`]:{
 						[`${student[key].Name}`]:{
-							Rno: Number(student[key].Rno)
+							Rno: Number(student[key].Rno),
+							TotalAttendance: Number(student[key].TotalAttendance),
+							HostelName: student[key].HostelName,
+							RoomNo: student[key].RoomNo,
+							EmailID: student[key].EmailID,
+							PhoneNo: Number(student[key].PhoneNo),
+							BranchName: student[key].BranchName
 						}
 					}
 				};
 				db.collection('admin').doc('student list '+year).set(data,{merge:true});
+	  		}else{
+	  			var t = 1 + Number(student[key].TotalAttendance);
+	  			var id={};
+	    		id[`${key}.TotalAttendance`] = t;
+	  			db.collection('Student').doc(doc.id).update(id);
 	  		}
 	  	}
 
@@ -718,14 +791,16 @@ async function authenticate(email,password,res,req){
 	for(key in doc.data()){
 		if(key==email){
 			c=1;
+			password = md5(md5(md5(password)));
+			//bcrypt.compare(password, adminList[key], function(err, result) {
 			if(password==adminList[key]){
 				req.session.user = key;
 				res.redirect('/admin_home');
-			}
-			else{
-				error = 'password incorrect';
+			}else{
+			   	error = 'password incorrect';
 				res.render('admin_login.ejs',{error:error});
 			}
+			//});
 		}
 	}
 	if(c==0){
@@ -794,23 +869,30 @@ app.post('/admin_add_excel_file', function(req, res) {
                     for (key in result){
                     	var data = {
 							[`${Number(key)+1}`]:{
-								Attendance: false,
+								Rno: Number(result[key].rno),
 								Name: result[key].name,
-								Rno: Number(result[key].rno)
+								Attendance: false,
+								TotalAttendance: Number(0),
+								HostelName: result[key].hostelname,
+								RoomNo: result[key].roomno,
+								EmailID: result[key].emailid,
+								PhoneNo: Number(result[key].phoneno),
+								BranchName: result[key].branchname
 							}
 						};
+						console.log(data);
 						console.log(req.body.year+' list');
-						if(Number(key)==0){
-							db.collection('Student').doc(req.body.year+' list').set(data);
-						}else{
+						// if(Number(key)==0){
+						// 	db.collection('Student').doc(req.body.year+' list').set(data);
+						// }else{
 							db.collection('Student').doc(req.body.year+' list').set(data,{merge:true});
-						}
+						// }
                     }
-                    res.redirect('/admin_home');
+                    res.render('admin_add_excel_file.ejs',{user:req.session.user,success:'List added successfully'});
                     
                 });
             } catch (e){
-                    console.log("Corupted excel file");
+                    res.render('admin_add_excel_file.ejs',{user:req.session.user,error:"Corupted excel file"});
             }
         })
 })
