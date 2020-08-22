@@ -18,13 +18,18 @@
 			<a href="/admin_change_details">Manage</a>
 			<a href="/admin_profile">Profile</a>
 		</nav>
-		<h1> Hello </h1>
+		<h1> Hello <%=user%></h1>
 
 		<% var keys = Object.keys(students)%>
 			<% keys.forEach(function(key){ %>
 			<% if((key)==id){%>
 			<p>Name: <%= students[key].Name%></p>
 			<p>Roll No: <%= students[key].Rno%></p>
+			<p>Hostel Name: <%= students[key].HostelName%>
+			<p>Room No: <%= students[key].RoomNo%>
+			<p>Branch Name: <%= students[key].BranchName%>
+			<p>Email ID: <%= students[key].EmailID%>
+			<p>Phone No: <%= students[key].PhoneNo%>
 			<p>Year of admission: <%= year%></p>
 			
 			<% }});%>

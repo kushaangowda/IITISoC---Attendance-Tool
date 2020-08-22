@@ -10,17 +10,22 @@
 			<a href="/admin_change_details">Manage</a>
 			<a href="/admin_profile">Profile</a>
 		</nav>
-		<h1> Hello </h1>
+		<h1> Hello <%=user%> </h1>
 		<!-- <form method="post">
 			<p>Year of admission: <input type="number" name="year" required="true" /></p>
 			<p><input type="file" id="myFile" name="file" required="true"></p>
 			<button type="submit">Upload</button>
 		</form> -->
+		<p>Format of xlsx file:</p>
+		<img src="images/excelFile.png"/>
 		<form id="uploadForm" enctype="multipart/form-data" action="admin_add_excel_file" method="post">
 			<p>Year of admission: <input type="number" name="year" required="true" /></p>
 			<p>Upload xlsx type files only</p>
 			<p><input type="file" name="file" required="true" /></p>
 			<input type="submit" value="Upload" name="submit">
 		</form>
+		<%if(typeof success!='undefined'){%>
+			<p><%=success%></p>
+		<%}%>
 	</body>
 </html>

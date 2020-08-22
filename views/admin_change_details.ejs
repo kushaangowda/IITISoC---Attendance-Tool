@@ -29,16 +29,16 @@
 			<a href="/admin_change_details">Manage</a>
 			<a href="/admin_profile">Profile</a>
 		</nav>
-		<h1>Hello</h1>
+		<h1>Hello <%=user%></h1>
 		<form method="post">
-			<p>Year of admission: <input type="number" name="year" /></p>
+			<p>Year of admission: <input type="number" name="year" required="true" /></p>
 			<p><input type="submit" name="submit" value="submit"></p>
 		</form>
 		<% if(typeof students!='undefined'){%>
 			<table>
 				<tr>
 					<!-- <th><form method="post"><p><input type="checkbox" name="a" id="remove_all" style="opacity: 1; pointer-events: visible;" onclick='select_all()'></p></form></th> -->
-					<th>Name</th><th>Roll No</th><th>Update details</th><th>Remove Student</th></tr>
+					<th>Name</th><th>Roll No</th><th>Hostel Name</th><th>Room No</th><th>Branch Name</th><th>Email ID</th><th>Phone No</th><th>Total Attendance</th><th>Update details</th><th>Remove Student</th></tr>
 				<% var keys = Object.keys(students)%>
 				<% var count = 0;%>
 				<% keys.forEach(function(key){ %>
@@ -47,6 +47,12 @@
 					<%count = count+1;%>
 					<td><%=(students[key].Name)%></td>
 					<td><%=(students[key].Rno)%></td>
+					<td><%=(students[key].HostelName)%></td>
+					<td><%=(students[key].RoomNo)%></td>
+					<td><%=(students[key].BranchName)%></td>
+					<td><%=(students[key].EmailID)%></td>
+					<td><%=(students[key].PhoneNo)%></td>
+					<td><%=(students[key].TotalAttendance)+'/'+total_days%></td>
 					<% var link1 = '/admin_change/?id='+key+'&year='+year%>
 					<td><a href=<%=link1%>><button>Update</button></a></td>
 					<% var link = '/admin_remove/?id='+key+'&year='+year%>
@@ -56,8 +62,9 @@
 			</table><br/>
 			<p id="count" style="display: none;"><%=count%></p>
 		
-		<%}else{%>
-			<p>Error</p>
+		<%}%>
+		<%if(typeof error!='undefined'){%>
+			<p><%=error%></p>
 		<%}%>
 		<a href="/admin_add_choice"><button>Add Students</button></a>
 		<!-- <a href="/admin_add"><button>Remove Selected</button></a> -->

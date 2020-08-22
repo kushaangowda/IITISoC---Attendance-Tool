@@ -17,7 +17,7 @@
 			<a href="/admin_change_details">Manage</a>
 			<a href="/admin_profile">Profile</a>
 		</nav>
-		<h1>Hello</h1>
+		<h1>Hello <%=user%></h1>
 
 		<%if(0){ %>
 		<p>Please <a href='/admin_login'>login</a></p>
@@ -33,12 +33,18 @@
 		<%}else if(typeof students != "undefined"){%>
 			<h4>List of Absentees</h4>
 			<table>
-				<tr><th>Name</th><th>Rno</th></tr>
+				<tr><th>Name</th><th>Rno</th><th>Hostel Name</th><th>Room No</th><th>Branch Name</th><th>Email ID</th><th>Phone No</th><th>Total Attendance</th></tr>
 				<% var keys = Object.keys(students)%>
 				<% keys.forEach(function(key){ %>
 					<tr>
 						<td><%=key%></td>
 						<td><%= students[key].Rno%>	</td>
+						<td><%=(students[key].HostelName)%></td>
+						<td><%=(students[key].RoomNo)%></td>
+						<td><%=(students[key].BranchName)%></td>
+						<td><%=(students[key].EmailID)%></td>
+						<td><%=(students[key].PhoneNo)%></td>
+						<td><%=(students[key].TotalAttendance)+'/'+total_days%></td>
 					</tr>
 				<%});%>
 			</table><br/>

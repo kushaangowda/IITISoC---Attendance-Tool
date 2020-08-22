@@ -10,12 +10,23 @@
 			<a href="/admin_change_details">Manage</a>
 			<a href="/admin_profile">Profile</a>
 		</nav>
-		<h1> Hello </h1>
+		<h1> Hello <%=user%> </h1>
 		<form method="post">
 			<p>Name: <input type="text" name="name" required="true"/></p>
 			<p>Roll no: <input type="number" name="rno" required="true"/></p>
+			<p>Hostel Name: <input type="text" name="hostelname" required="true"/></p>
+			<p>Room No: <input type="text" name="roomno" required="true"/></p>
+			<p>Branch Name: <input type="text" name="branchname" required="true"/></p>
+			<p>Email ID: <input type="text" name="emailid" required="true"/></p>
+			<p>Phone No: <input type="number" name="phoneno" required="true"/></p>
 			<p>Year of admission: <input type="number" name="year" required="true"/></p>
 			<button type="submit">Add</button>
 		</form>
+		<%if(typeof error!='undefined'){%>
+			<p><%=error%></p>
+		<%}%>
+		<%if(typeof success!='undefined'){%>
+			<p><%=success%></p>
+		<%}%>
 	</body>
 </html>

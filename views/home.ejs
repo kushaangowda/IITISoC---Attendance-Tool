@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Voting App</title>
+		<title>Home page</title>
 		<!-- The core Firebase JS SDK is always required and must be listed first -->
 		<script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
 
@@ -17,8 +17,11 @@
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
 
   		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  		<link rel="stylesheet" type="text/css" href="css/home.css">
 
   		<!-- <script type="text/javascript" src="js/firebaseAuth.js"></script>
 
@@ -43,29 +46,49 @@
 	</head>
 	
 	<body>
-		<h1>Hello</h1>
+		<nav class="navbar navbar-light bg-dark" style="margin-bottom: 53px;">
+			<span class="navbar-brand mb-0 h1 text-light">Mark Your Attendance</span>
+		</nav>
 		<form method='post'>
-			<p>Year of admission: <input type="number" name="year" required="true" /></p>
-			<p><input type="submit" name="submit" value="submit"></p>
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text text-dark" id=" inputGroup-sizing-default">Please enter year of admission: </span>
+				</div><input type="number" name="year" required="true"  class="form-control text-dark bg-light"
+				aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
+				<!-- <p><input type="submit" name="submit" value="submit" class="btn btn-primary"></p> -->
+				<button type="submit" class="btn btn-primary">submit</button>
+			</div>
 		</form>
-		<table>
+		<div class="table-responsive">
+		<table class="table table-dark ">
 			<% if (typeof students!='undefined'){%>
-				<tr><th>Name</th><th>Roll No</th><th>Attendance</th></tr>
+				<%var i=1;%>
+
+				<thead><tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Roll No</th><th scope="col">Attendance</th></tr></thead>
 				<% var keys = Object.keys(students)%>
 				<% keys.forEach(function(key){ %>
-				<tr>
-					<td><%=(students[key].Name)%></td>
-					<td><%=(students[key].Rno)%></td>
-					<td><%=(students[key].Attendance)%></td>
-					<% var link = '/mark_attendance/?id='+key%>
-					<%if((students[key].Attendance)==false){%>
-					<td><a href=<%=link%>><button>Mark Attendance</button></a></td>
-					<%}%>
-				</tr>
+					<tbody>
+					<tr>
+						<th scope="row"><%=(i)%></th>
+						<% i=i+1;%>
+						<td><%=(students[key].Name)%></td>
+						<td><%=(students[key].Rno)%></td>
+						<td><%=(students[key].Attendance)%></td>
+						<% var link = '/mark_attendance/?id='+key%>
+						<%if((students[key].Attendance)==false){%>
+							<td><a href=<%=link%>><button type="submit" class="btn btn-primary">Mark Attendance</button></a></td>
+						<%}%>
+					</tr>
 				<%});%>
 			<%}%>
+		</tbody>
 		</table><br/>
-		<p>Not Student, <a href="/">Click here</a></p>
+
+
+		<%if(typeof error!='undefined'){%>
+			<p><%= error%></p>
+		<%}%>
+		<p class="text-dark end" >Not Student, Please </p><a href="/"><button type="submit" class="btn btn-primary">Click here</button></a>
 		
 	</body>
 </html>
