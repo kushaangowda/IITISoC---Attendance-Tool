@@ -199,8 +199,55 @@ app.post('/admin_change_details',(req,res)=>{
 	}
 	var year = req.body.year;
 	admin_change_details_stuff(year,res,req);
+	// var final_key = Number(req.body.final_key);
+	// console.log('final_key:',final_key);
+	// console.log(req.body.data);
+	// var data = String(req.body.data);
+	// data = data.slice(0,data.length-1);
+	// data = data.split(',');
+	// console.log('data: ',data);
+	// if(data){
+	// 	admin_remove_multiple_stuff(data,year,res);
+	// }
+	// if(req.body.data!=''){
+	// 	admin_remove_multiple_stuff(data,year,final_key,req);
+	// }
+	// console.log('k',req.body.names1);
+	// var j=1;
+	// console.log(`${`req.body.names${j}`}`)
+	// for(var i=1;i<=final_key;i++){
+	// 	if([`req.body.names${i}`]=='on'){
+	// 		
+	// 		break;
+	// 	}
+	// }
+
+
 })
 
+
+app.get('/admin_remove_selected',(req,res)=>{
+	var data = req.query.data;
+	var year = req.query.year;
+	admin_remove_multiple_stuff(data,year,res,req);
+})
+
+async function admin_remove_multiple_stuff(data,year,res,req){
+	var docRef = db.collection('Student').doc(year+' list');
+  	const doc = await docRef.get();
+  	if (!doc.exists) {
+        console.log('No such document!');
+  	} else {
+  		var doc1 = await total_days_list.get();
+	    var t = doc1.data();
+	    var total_days = 0;
+	    for(key in t){
+	    	total_days = t[key];	
+	    }
+    	res.render('admin_remove_selected.ejs',{students:doc.data(),data:data,year:year,user:req.session.user,total_days:total_days});
+  	}
+
+}
 
 app.get('/admin_add',(req,res)=>{
 	if(!req.session.user || !req.cookies.user_sid){
@@ -232,6 +279,18 @@ app.get('/remove',(req,res)=>{
 	docRef.update(id);
 	res.redirect('/admin_change_details');
 });
+
+app.get('/remove_multiple',(req,res)=>{
+	var docRef = db.collection('Student').doc(req.query.year+' list');
+	const FieldValue = admin.firestore.FieldValue;
+	var id = {};
+	var data = req.query.data;
+	for(var i=0;i<data.length;i++){
+		id[`${data[i]}`] = FieldValue.delete();
+	}
+	docRef.update(id);
+	res.redirect('/admin_change_details');
+})
 
 app.get('/logout',(req,res)=>{
 	if (req.session.user && req.cookies.user_sid) {
