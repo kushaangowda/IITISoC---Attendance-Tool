@@ -10,17 +10,51 @@
 
   		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   		<script type="text/javascript">
-  			// function select_all(){
-  			// 	if(document.getElementById('remove_all').checked==true){
-  			// 		console.log(document.getElementById('remove_all').checked);
-  			// 		for(var i=0;i<Number(document.getElementById('count').innerHTML);i++){
-  			// 		document.getElementsByClassName('checkbox1')[i].setAttribute('checked',"true");}
-  			// 	}else{
-  			// 		console.log(document.getElementById('remove_all').checked);
-  			// 		for(var i=0;i<Number(document.getElementById('count').innerHTML);i++){
-  			// 		document.getElementsByClassName('checkbox1')[i].setAttribute('checked',"false");}  				
-  			// 	}
-  			// }
+  			function select_all(){
+  				if(document.getElementById('remove_all').checked==true){
+  					console.log(document.getElementById('remove_all').checked);
+  					for(var i=0;i<Number(document.getElementById('count').innerHTML);i++){
+  						console.log(i)
+  					document.getElementsByClassName('checkbox1')[i].checked=true;}
+  				}else{
+  					console.log(document.getElementById('remove_all').checked);
+  					for(var i=0;i<Number(document.getElementById('count').innerHTML);i++){
+  						console.log(i);
+  					document.getElementsByClassName('checkbox1')[i].checked=false;}  				
+  				}
+  				add_data();
+  			}
+  			function check_checkbox(){
+  				var c=1;
+  				for(var i=0;i<Number(document.getElementById('count').innerHTML);i++){
+  					if(document.getElementsByClassName('checkbox1')[i].checked==false){
+  						document.getElementById('remove_all').checked=false;
+  						c=0;
+  						break;
+  					}
+  				}
+  				if(c==1){
+  					document.getElementById('remove_all').checked=true;
+  				}
+  				add_data();
+  			}
+  			function add_data(){
+  				var data = '';
+  				for(var i=0;i<Number(document.getElementById('count').innerHTML);i++){
+  					if(document.getElementsByClassName('checkbox1')[i].checked==true){
+  						data+=document.getElementsByClassName('checkbox1')[i].name+',';
+  					}
+  				}
+  				var year = document.getElementById('year').innerHTML;
+				data = data.slice(0,data.length-1);
+				data = data.split(',');
+				var link = "/admin_remove_selected/?";
+				for (i=0;i<data.length;i++){
+					link+='data[]='+data[i]+'&';
+				}
+				link+="year="+year;
+  				document.getElementById('link12').href=link;
+  			}
   		</script>
 	</head>
 	<body>
@@ -35,15 +69,18 @@
 			<p><input type="submit" name="submit" value="submit"></p>
 		</form>
 		<% if(typeof students!='undefined'){%>
+			<h4>Year of admission: <%=year%></h4>
 			<table>
 				<tr>
-					<!-- <th><form method="post"><p><input type="checkbox" name="a" id="remove_all" style="opacity: 1; pointer-events: visible;" onclick='select_all()'></p></form></th> -->
+					<th>Select All<form method="post"><span><input type="checkbox" name="a" id="remove_all" style="opacity: 1; pointer-events: visible;" onclick='select_all()'></span></form></th>
 					<th>Name</th><th>Roll No</th><th>Hostel Name</th><th>Room No</th><th>Branch Name</th><th>Email ID</th><th>Phone No</th><th>Total Attendance</th><th>Update details</th><th>Remove Student</th></tr>
 				<% var keys = Object.keys(students)%>
 				<% var count = 0;%>
+				<p style="display: none;" id="year"><%=year%></p>
+				<form method="post">
 				<% keys.forEach(function(key){ %>
 				<tr>
-					<!-- <td><form method="post"><p><input type="checkbox" style="opacity: 1; pointer-events: visible;" class="checkbox1" checked="false"></p></form></td> -->
+					<td><p><input type="checkbox" style="opacity: 1; pointer-events: visible;" class="checkbox1" onclick="check_checkbox()" name=<%=key%>></p></td>
 					<%count = count+1;%>
 					<td><%=(students[key].Name)%></td>
 					<td><%=(students[key].Rno)%></td>
@@ -61,12 +98,17 @@
 					<%});%>
 			</table><br/>
 			<p id="count" style="display: none;"><%=count%></p>
+			<%if(typeof abc!='undefined'){%>
+			<p style="display: none;"><input type="text" id='data' name="data" value=''></p></form>
+			<%}%>
+			
 		
 		<%}%>
 		<%if(typeof error!='undefined'){%>
 			<p><%=error%></p>
 		<%}%>
-		<a href="/admin_add_choice"><button>Add Students</button></a>
-		<!-- <a href="/admin_add"><button>Remove Selected</button></a> -->
+		<a id="link12" href="">Remove Selected</a>
+		<br/>
+		<a href="/admin_add_choice">Add Students</a>
 	</body>
 </html>
