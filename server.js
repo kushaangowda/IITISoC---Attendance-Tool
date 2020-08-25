@@ -51,7 +51,7 @@ schedule.scheduleJob({hour: 1, minute: 0}, function(){
     reset_data();
 });
 
-schedule.scheduleJob({hour: 19, minute: 10}, function(){
+schedule.scheduleJob({hour:0, minute: 0}, function(){
     add_data_to_admin();
 });
 
@@ -85,7 +85,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 600000
+        expires: 3600000
     }
 }));
 
