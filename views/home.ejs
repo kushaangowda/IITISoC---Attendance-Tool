@@ -64,7 +64,7 @@
 			<% if (typeof students!='undefined'){%>
 				<%var i=1;%>
 
-				<thead><tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Roll No</th><th scope="col">Attendance</th></tr></thead>
+				<thead><tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Roll No</th><th scope="col">Attendance</th><th scope="col">Mark Attendance</th></tr></thead>
 				<% var keys = Object.keys(students)%>
 				<% keys.forEach(function(key){ %>
 					<tbody>
@@ -72,7 +72,7 @@
 						<th scope="row"><%=(i)%></th>
 						<% i=i+1;%>
 						<td><%=(students[key].Name)%></td>
-						<td><%=(students[key].Rno)%></td>
+						<td><%=(key)%></td>
 						<td><%=(students[key].Attendance)%></td>
 						<% var link = '/mark_attendance/?id='+key%>
 						<%if((students[key].Attendance)==false){%>

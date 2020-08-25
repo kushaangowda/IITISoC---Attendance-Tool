@@ -77,13 +77,13 @@
 				<% var keys = Object.keys(students)%>
 				<% var count = 0;%>
 				<p style="display: none;" id="year"><%=year%></p>
-				<form method="post">
+				
 				<% keys.forEach(function(key){ %>
 				<tr>
-					<td><p><input type="checkbox" style="opacity: 1; pointer-events: visible;" class="checkbox1" onclick="check_checkbox()" name=<%=key%>></p></td>
+					<form method="post"><td><p><input type="checkbox" style="opacity: 1; pointer-events: visible;" class="checkbox1" onclick="check_checkbox()" name=<%=key%>></p></td></form>
 					<%count = count+1;%>
 					<td><%=(students[key].Name)%></td>
-					<td><%=(students[key].Rno)%></td>
+					<td><%=(key)%></td>
 					<td><%=(students[key].HostelName)%></td>
 					<td><%=(students[key].RoomNo)%></td>
 					<td><%=(students[key].BranchName)%></td>
@@ -99,7 +99,7 @@
 			</table><br/>
 			<p id="count" style="display: none;"><%=count%></p>
 			<%if(typeof abc!='undefined'){%>
-			<p style="display: none;"><input type="text" id='data' name="data" value=''></p></form>
+			<form method="post"><p style="display: none;"><input type="text" id='data' name="data" value=''></p></form>
 			<%}%>
 			
 		
@@ -107,8 +107,8 @@
 		<%if(typeof error!='undefined'){%>
 			<p><%=error%></p>
 		<%}%>
-		<a id="link12" href="">Remove Selected</a>
+		<a id="link12" href=""><button>Remove Selected</button></a>
 		<br/>
-		<a href="/admin_add_choice">Add Students</a>
+		<a href="/admin_add_choice"><button>Add Students</button></a>
 	</body>
 </html>

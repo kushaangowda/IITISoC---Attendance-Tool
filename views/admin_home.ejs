@@ -32,13 +32,15 @@
 		<p><%= error%></p>
 		<%}else if(typeof students != "undefined"){%>
 			<h4>List of Absentees</h4>
+			<h5>Year: <%=year%></h5>
+			<h5>Date: <%=date%></h5>
 			<table>
 				<tr><th>Name</th><th>Rno</th><th>Hostel Name</th><th>Room No</th><th>Branch Name</th><th>Email ID</th><th>Phone No</th><th>Total Attendance</th></tr>
 				<% var keys = Object.keys(students)%>
 				<% keys.forEach(function(key){ %>
 					<tr>
+						<td><%=students[key].Name%></td>
 						<td><%=key%></td>
-						<td><%= students[key].Rno%>	</td>
 						<td><%=(students[key].HostelName)%></td>
 						<td><%=(students[key].RoomNo)%></td>
 						<td><%=(students[key].BranchName)%></td>

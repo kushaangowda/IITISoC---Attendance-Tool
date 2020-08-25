@@ -19,29 +19,43 @@
 			<a href="/admin_profile">Profile</a>
 		</nav>
 		<h1> Hello <%=user%></h1>
+		<%var name = ''%>
+		<%var rno = 0%>
+		<%var hname = ''%>
+		<%var bname = ''%>
+		<%var roomno = ''%>
+		<%var email = ''%>
+		<%var pno = 0%>
 
 		<% var keys = Object.keys(students)%>
 			<% keys.forEach(function(key){ %>
 			<% if((key)==id){%>
 			<p>Name: <%= students[key].Name%></p>
-			<p>Roll No: <%= students[key].Rno%></p>
+			<p>Roll No: <%= key%></p>
 			<p>Hostel Name: <%= students[key].HostelName%>
 			<p>Room No: <%= students[key].RoomNo%>
 			<p>Branch Name: <%= students[key].BranchName%>
 			<p>Email ID: <%= students[key].EmailID%>
 			<p>Phone No: <%= students[key].PhoneNo%>
 			<p>Year of admission: <%=year%></p>
+			<%name = students[key].Name%>
+			<%rno = Number(key)%>
+			<%hname = students[key].HostelName%>
+			<%bname = students[key].BranchName%>
+			<%roomno = students[key].RoomNo%>
+			<%email = students[key].EmailID%>
+			<%pno = Number(students[key].PhoneNo)%>
 			
 			<% }});%>
 
 		<form method="post">
-			<p>Name: <input type="text" name="name" required="true"/></p>
-			<p>Roll no: <input type="number" name="rno" required="true"/></p>
-			<p>Hostel Name: <input type="text" name="hostelname" required="true"/></p>
-			<p>Room No: <input type="text" name="roomno" required="true"/></p>
-			<p>Branch Name: <input type="text" name="branchname" required="true"/></p>
-			<p>Email ID: <input type="text" name="emailid" required="true"/></p>
-			<p>Phone No: <input type="number" name="phoneno" required="true"/></p>
+			<p>Name: <input type="text" name="name" required="true" value=<%=name%>></p>
+			<p>Roll no: <input type="number" name="rno" required="true" value=<%=rno%>></p>
+			<p>Hostel Name: <input type="text" name="hostelname" required="true" value=<%=hname%>></p>
+			<p>Room No: <input type="text" name="roomno" required="true" value=<%=roomno%>></p>
+			<p>Branch Name: <input type="text" name="branchname" required="true" value=<%=bname%>></p>
+			<p>Email ID: <input type="text" name="emailid" required="true" value=<%=email%>></p>
+			<p>Phone No: <input type="number" name="phoneno" required="true" value=<%=pno%>></p>
 			<button type="submit">Update</button>
 		</form>
 	</body>
