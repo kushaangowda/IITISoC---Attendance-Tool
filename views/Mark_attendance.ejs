@@ -33,6 +33,7 @@
 			function both(){
 				if(check_if_allowed()){
 					store_data();
+					document.cookie='success=attendance marked successfully';
 					var link = document.getElementById('link').innerHTML;
 					window.location.replace(link);
 				}
@@ -68,9 +69,12 @@
 				
 				<% }});%>
 				<%if(d==0){%>
-				<p>Roll number not found</p>
+				<p style="color: red;">Roll number not found</p>
 				<%}%>
 				<% var link = '/update/?id='+id%>
+				<%if(c==1){%>
+					<p style="color: green">Attendance marked already</p>
+				<%}%>
 				<%if(c==0 && d==1){%>
 				<button onclick='both()' class="btn btn-primary d-inline">Mark attendance</button>
 				<%}%>

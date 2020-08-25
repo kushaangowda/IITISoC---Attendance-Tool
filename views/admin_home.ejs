@@ -10,6 +10,33 @@
 
   		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+  		<script type="text/javascript">
+			function searchName(){
+				var mess = document.getElementById('search').value;
+				if(mess!=''){
+					var i=0;
+					while(document.getElementsByClassName('studentName')[i]){
+						if(document.getElementsByClassName('studentName')[i].innerHTML.indexOf(mess)!=-1 || String(document.getElementsByClassName('studentRno')[i].innerHTML).indexOf(mess)!=-1){
+							document.getElementsByClassName('student_details')[i].style.display = '';
+							// document.getElementsByClassName('student_details')[i].removeAttribute('style');
+						}
+						else{
+							document.getElementsByClassName('student_details')[i].style.display = 'none';
+						}
+						i=i+1;
+					}
+				}
+				else{
+					var i=0;
+					while(document.getElementsByClassName('studentName')[i]){
+						document.getElementsByClassName('student_details')[i].style.display = '';
+						// document.getElementsByClassName('student_details')[i].removeAttribute('style');
+						i=i+1;
+					}
+				}
+			}
+		</script>
+
 	</head>
 	<body>
 		<nav>
@@ -29,18 +56,20 @@
 			<input type="submit" name="submit" value="Submit">
 		</form>
 		<% if(typeof error != "undefined"){ %>
-		<p><%= error%></p>
+		<p style="color: red"><br/><%= error%></p>
 		<%}else if(typeof students != "undefined"){%>
+
 			<h4>List of Absentees</h4>
 			<h5>Year: <%=year%></h5>
 			<h5>Date: <%=date%></h5>
+			<form method='post'><p>Search: <input type="text" name="search" id='search' onkeyup="searchName()" placeholder="Search for name or rollno" /></p></form>	
 			<table>
 				<tr><th>Name</th><th>Rno</th><th>Hostel Name</th><th>Room No</th><th>Branch Name</th><th>Email ID</th><th>Phone No</th><th>Total Attendance</th></tr>
 				<% var keys = Object.keys(students)%>
 				<% keys.forEach(function(key){ %>
-					<tr>
-						<td><%=students[key].Name%></td>
-						<td><%=key%></td>
+					<tr class="student_details">
+						<td class="studentName"><%=students[key].Name%></td>
+						<td class="studentRno"><%=key%></td>
 						<td><%=(students[key].HostelName)%></td>
 						<td><%=(students[key].RoomNo)%></td>
 						<td><%=(students[key].BranchName)%></td>
@@ -50,8 +79,6 @@
 					</tr>
 				<%});%>
 			</table><br/>
-		<%}else{%>
-			<p>Please select date, and year of admission</p>
 		<%}%>
 		
 		

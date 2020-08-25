@@ -16,9 +16,39 @@
   		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
   		<link rel="stylesheet" type="text/css" href="css/index.css">
+
+  		<script type="text/javascript">
+  			function getCookie(cname) {
+				var name = cname + "=";
+				var decodedCookie = decodeURIComponent(document.cookie);
+				var ca = decodedCookie.split(';');
+				for(var i = 0; i <ca.length; i++) {
+				    var c = ca[i];
+				    while (c.charAt(0) == ' ') {
+				      c = c.substring(1);
+				    }
+				    if (c.indexOf(name) == 0) {
+				      return c.substring(name.length, c.length);
+				    }
+				}
+				return "";
+			}
+  			function check_message(){
+
+  				var message = getCookie('success');
+  				console.log(message);
+  				if(message!=''){
+  					alert(message);
+  					message = message.slice(8,message.length-1);
+  					document.getElementById('message').style.color = 'green';
+  					document.getElementById('message').innerHTML = message;
+  					document.cookie = '';
+  				}
+  			}
+  		</script>
   		
 	</head>
-	<body>
+	<body onload="check_message()">
 		<!-- <div class="greeting">
 			<h2> IITI Attendance System </h2>
 			<p>desc.....</p>
@@ -62,6 +92,7 @@
 				</div>
 			</div>
 		</div>
+		<p id="message"></p>
 	</body>
 
 		

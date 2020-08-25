@@ -40,8 +40,10 @@
   			}
   			function add_data(){
   				var data = '';
+  				document.getElementById('link12').style.display='none';
   				for(var i=0;i<Number(document.getElementById('count').innerHTML);i++){
   					if(document.getElementsByClassName('checkbox1')[i].checked==true){
+  						document.getElementById('link12').removeAttribute('style');
   						data+=document.getElementsByClassName('checkbox1')[i].name+',';
   					}
   				}
@@ -55,6 +57,30 @@
 				link+="year="+year;
   				document.getElementById('link12').href=link;
   			}
+			function searchName(){
+				var mess = document.getElementById('search').value;
+				if(mess!=''){
+					var i=0;
+					while(document.getElementsByClassName('studentName')[i]){
+						if(document.getElementsByClassName('studentName')[i].innerHTML.indexOf(mess)!=-1 || String(document.getElementsByClassName('studentRno')[i].innerHTML).indexOf(mess)!=-1){
+							document.getElementsByClassName('student_details')[i].style.display = '';
+							// document.getElementsByClassName('student_details')[i].removeAttribute('style');
+						}
+						else{
+							document.getElementsByClassName('student_details')[i].style.display = 'none';
+						}
+						i=i+1;
+					}
+				}
+				else{
+					var i=0;
+					while(document.getElementsByClassName('studentName')[i]){
+						document.getElementsByClassName('student_details')[i].style.display = '';
+						// document.getElementsByClassName('student_details')[i].removeAttribute('style');
+						i=i+1;
+					}
+				}
+			}
   		</script>
 	</head>
 	<body>
@@ -70,6 +96,7 @@
 		</form>
 		<% if(typeof students!='undefined'){%>
 			<h4>Year of admission: <%=year%></h4>
+			<form method='post'><p>Search: <input type="text" name="search" id='search' onkeyup="searchName()" placeholder="Search for name or rollno" /></p></form>	
 			<table>
 				<tr>
 					<th>Select All<form method="post"><span><input type="checkbox" name="a" id="remove_all" style="opacity: 1; pointer-events: visible;" onclick='select_all()'></span></form></th>
@@ -79,11 +106,11 @@
 				<p style="display: none;" id="year"><%=year%></p>
 				
 				<% keys.forEach(function(key){ %>
-				<tr>
+				<tr class="student_details">
 					<form method="post"><td><p><input type="checkbox" style="opacity: 1; pointer-events: visible;" class="checkbox1" onclick="check_checkbox()" name=<%=key%>></p></td></form>
 					<%count = count+1;%>
-					<td><%=(students[key].Name)%></td>
-					<td><%=(key)%></td>
+					<td class="studentName"><%=(students[key].Name)%></td>
+					<td class="studentRno"><%=(key)%></td>
 					<td><%=(students[key].HostelName)%></td>
 					<td><%=(students[key].RoomNo)%></td>
 					<td><%=(students[key].BranchName)%></td>
@@ -105,9 +132,9 @@
 		
 		<%}%>
 		<%if(typeof error!='undefined'){%>
-			<p><%=error%></p>
+			<p style="color: red;"><%=error%></p>
 		<%}%>
-		<a id="link12" href=""><button>Remove Selected</button></a>
+		<a id="link12" href="" style="display: none;"><button>Remove Selected</button></a>
 		<br/>
 		<a href="/admin_add_choice"><button>Add Students</button></a>
 	</body>
