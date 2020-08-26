@@ -1,7 +1,10 @@
 body{
     background-color: #e7e7e7;
 }
-
+.navbar
+{
+    margin-bottom: 50px;
+}
 .ss
 {
     width: fit-content;
@@ -13,7 +16,8 @@ body{
     margin: 20px 0px 20px 0px;
 }
 
-.c1
+
+/* .c1
 {
     margin: 20px 0px 20px 0px;
 }
@@ -22,8 +26,9 @@ body{
 {
     margin: 20px 0px 20px 0px;
 }
-
+*/
 .link12
 {
     margin: 20px 0px 20px 0px;
 }
+ 
