@@ -85,7 +85,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 3600000
+        expires: 3600000	//after 1 hour, user will be logged out automatically
     }
 }));
 
@@ -267,7 +267,7 @@ app.get('/admin_change',(req,res)=>{
 app.get('/update',(req,res)=>{
 	var id = {}
 	id[`${req.query.id}.Attendance`] = true;
-	student_2019_list.update(id);
+	db.collection('Student').doc(req.query.year+' list').update(id);
 	res.redirect('/');
 });
 
@@ -390,13 +390,13 @@ async function home_student_stuff(year,res) {
     res.render('home.ejs',{error:'Invalid year'});
   } else {
     console.log('Document data:', doc.data());
-    res.render('home.ejs',{students:doc.data()});
+    res.render('home.ejs',{students:doc.data(),year:year});
   }
 }
 
 async function mark_attendance_stuff(res,req) {
   // [START get_document]
-  const doc = await student_2019_list.get();
+  const doc = await db.collection('Student').doc(req.query.year+' list').get();
   if (!doc.exists) {
     console.log('No such document!');
   } else {
@@ -407,7 +407,7 @@ async function mark_attendance_stuff(res,req) {
 		total_days = t[key];	
 	}
     console.log('Document data:', doc.data());
-    res.render('Mark_attendance.ejs',{students:doc.data(),id:req.query.id,total_days:total_days});
+    res.render('Mark_attendance.ejs',{students:doc.data(),year:req.query.year,id:req.query.id,total_days:total_days});
   }
 }
 
@@ -695,30 +695,30 @@ async function admin_add_stuff(name,rno,hostelname,roomno,branchname,emailid,pho
 
 async function admin_change_post_stuff(name,rno,hostelname,roomno,branchname,emailid,phoneno,year,res,req) {
   // [START get_document]
-  var docRef = db.collection('Student').doc(year+' list');
+  var docRef1 = db.collection('Student').doc(year+' list');
   var docRef2 = db.collection('admin').doc('student list '+year);
   const id = req.query.id;
-  const doc = await docRef.get();
+  const doc1 = await docRef1.get();
   const doc2 = await docRef2.get();
-  var list = doc2.data();
-  var list1 = doc.data();
-  if (!doc.exists) {
+  var list1 = doc1.data();
+  var list2 = doc2.data();
+  if (!doc1.exists) {
     console.log('No such document!');
   } else {
   		var ta=0;
-    	console.log('Document data found', doc.data());
-    	for(key in doc.data()){
-    		if(key==id){
+    	console.log('Document data found', doc1.data());
+    	for(key in doc1.data()){
+    		if(Number(key)==Number(id)){
     			ta=list1[key].TotalAttendance;
     			break;
     		}
     	}
     	const FieldValue = admin.firestore.FieldValue;
     	var data1 = {
-    		[`${id}`]: FieldValue.delete()
+    		[`${Number(id)}`]: FieldValue.delete()
     	}
-    	docRef.update(data1);
-	    var data = {
+    	docRef1.update(data1);
+	    var data2 = {
 			[`${Number(rno)}`]:{
 				Attendance: false,
 				Name: name,
@@ -730,14 +730,16 @@ async function admin_change_post_stuff(name,rno,hostelname,roomno,branchname,ema
 				BranchName: branchname
 			}
 		};
-		docRef.set(data,{merge:true});
-		for(key in list){
-			if([`${key}.${Number(id)}`]){
-				var data = {
-					[`${key}.${Number(id)}`]: FieldValue.delete()
+		docRef1.set(data2,{merge:true});
+		for(key in list2){
+			var x = list2[key][id];
+			console.log(x);
+			if(typeof [`${key}.${Number(id)}`]!='undefined'){
+				var data3 = {
+					[`${key}.${Number(id)}`]: admin.firestore.FieldValue.delete()
 				} 
-				docRef2.update(data);
-				var data = {
+				docRef2.update(data3);
+				var data4 = {
 					[`${key}`]:{
 						[`${Number(rno)}`]:{
 							Name: name,
@@ -750,7 +752,7 @@ async function admin_change_post_stuff(name,rno,hostelname,roomno,branchname,ema
 						}
 					}
 				};
-				docRef2.set(data,{merge:true});
+				docRef2.set(data4,{merge:true});
 
 			}
 		}
