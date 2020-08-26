@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title> My First Express App</title>
+		<title>Home page</title>
 
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-		<link rel="stylesheet" type="text/css" href="css/admin_change_details.css">
-
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&amp;display=swap" rel="stylesheet">
 
   		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  		<script type="text/javascript">
+
+		<link href="../css/admin_change_details.css" rel="stylesheet">  
+	<script type="text/javascript" async="" src="http://www.googletagmanager.com/gtag/js?id=G-SD5ZLVWXK3&amp;l=dataLayer&amp;cx=c"></script><script src="https://www.googletagmanager.com/gtag/js?l=dataLayer" async=""></script><script type="text/javascript">
   			function select_all(){
   				if(document.getElementById('remove_all').checked==true){
   					console.log(document.getElementById('remove_all').checked);
@@ -122,7 +121,7 @@
 			<p>Year of admission: <input type="number" name="year" required="true" /></p>
 			<p><input type="submit" name="submit" value="submit"></p>
 		</form> -->
-		<form method="POST">
+		<!-- <form method="POST">
 		<div class="form-group c1">
 			<div class="input-group-prepend mb-3">
 				<span class="input-group-text text-dark" id=" inputGroup-sizing-default">Please enter year of admission: </span>
@@ -130,11 +129,25 @@
 			<input type="number" name="year" required="true" class="form-control mb-3" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 			<button type="submit" class="btn btn-primary">submit</button>
 		</div>
+		</form> -->
+
+		<form method="post">
+			<div class="form-group">
+				<div class="input-group-prepend mb-3">
+					<span class="input-group-text text-dark" id=" inputGroup-sizing-default">Please enter year of admission: </span>
+				</div>
+				<input type="number" name="year" required="true" class="form-control mb-3" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+				<button type="submit" class="btn btn-primary">submit</button>
+			</div>
 		</form>
 
 		<% if(typeof students!='undefined'){%>
 			<h4 id="yeartop">Year of admission: <%=year%></h4>
-			<form method='post'><p class="search2"> <span class="ss input-group-text text-dark">Search For Name or Roll No.</span> <input type="text" name="search" id='search' onkeyup="searchName()" placeholder="" /></p></form>
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text text-dark" id=" inputGroup-sizing-default">Search: </span>
+				</div><input type="text" name="search" class="form-control text-dark bg-light" aria-label="Sizing example input" id="search" aria-describedby="inputGroup-sizing-default" onkeyup="searchName()" placeholder="Search for name or roll number">
+			</div>
 
 			<!-- <form method='post'><p>Search: <input type="text" name="search" id='search' onkeyup="searchName()" placeholder="Search for name or rollno" /></p></form>	 -->
 			<div class="table-responsive">
