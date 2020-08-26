@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +27,7 @@
     "node-sessionstorage": "^1.0.0",
     "node-suggestive-search": "^1.10.6",
     "nodemailer": "^6.4.11",
+    "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "read-excel-file": "^4.0.7",

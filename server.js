@@ -353,7 +353,7 @@ app.get('/admin_add_choice',(req,res)=>{
 // 	res.render('result.ejs', {breakfast : breakfast});
 // });
 
-app.listen(port);
+app.listen(port, () => console.log(`listening to PORT ${port}...`));
 
 async function admin_change_password_stuff(old_pass,new_pass1,new_pass2,req,res){
 	const doc = await admin_user_list.get();
