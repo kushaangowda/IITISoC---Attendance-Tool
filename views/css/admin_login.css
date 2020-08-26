@@ -1,0 +1,43 @@
+.container{
+    background-color: bisque;
+    border-radius: 17px;
+    padding: 47px;
+}
+
+.navbar span
+{
+    margin: auto;
+}
+
+.forgot
+{
+    margin-top: 4px;
+}
+
+.back
+{
+    margin-top: 4px;
+}
+#alert{
+    margin-top: 15px;
+}
+body
+{
+    font-family: 'Josefin Sans', sans-serif;
+    background-image: url("https://source.unsplash.com/2000x2000/?study");
+    background-repeat: no-repeat; 
+    /* height:100%; */
+    text-align: center;
+    /* Set rules to fill background */
+min-height: 100%;
+min-width: 1024px;
+
+/* Set up proportionate scaling */
+width: 100%;
+height: auto;
+
+/* Set up positioning */
+position: fixed;
+top: 0;
+left: 0;
+}
