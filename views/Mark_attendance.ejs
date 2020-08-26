@@ -35,6 +35,8 @@
 					store_data();
 					document.cookie='success=attendance marked successfully';
 					var link = document.getElementById('link').innerHTML;
+					var pos = link.indexOf('&amp;');
+					link = link.slice(0,pos)+'&'+link.slice(pos+5,link.length);
 					window.location.replace(link);
 				}
 				else{
@@ -71,7 +73,7 @@
 				<%if(d==0){%>
 				<p style="color: red;">Roll number not found</p>
 				<%}%>
-				<% var link = '/update/?id='+id%>
+				<% var link = '/update/?id='+id+'&year='+year+'';%>
 				<%if(c==1){%>
 					<p style="color: green">Attendance marked already</p>
 				<%}%>

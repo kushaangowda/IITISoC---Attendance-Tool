@@ -87,6 +87,9 @@
 
 		<p class="text-dark end" >Not Student, Please </p><a href="/"><button type="submit" class="btn btn-primary">Click here</button></a>
 		<div class="table-responsive">
+		<%if(typeof year!='undefined'){%>
+			<h5>Year of admission: <%=year%></h5>
+		<%}%>
 		<table class="table table-dark "><br/>
 			<% if (typeof students!='undefined'){%>
 			<form method='post'>
@@ -109,9 +112,9 @@
 						<td class='studentName'><%=(students[key].Name)%></td>
 						<td class='studentRno'><%=(key)%></td>
 						<td><%=(students[key].Attendance)%></td>
-						<% var link = '/mark_attendance/?id='+key%>
+						<% var link = '/mark_attendance/?id='+key+'&year='+year%>
 						<%if((students[key].Attendance)==false){%>
-							<td><a href=<%=link%>><button type="submit" class="btn btn-primary">Mark Attendance</button></a></td>
+							<td><a href="<%=link%>"><button type="submit" class="btn btn-primary">Mark Attendance</button></a></td>
 						<%}%>
 					</tr>
 				<%});%>

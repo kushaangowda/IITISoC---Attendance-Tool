@@ -107,7 +107,7 @@
 				
 				<% keys.forEach(function(key){ %>
 				<tr class="student_details">
-					<form method="post"><td><p><input type="checkbox" style="opacity: 1; pointer-events: visible;" class="checkbox1" onclick="check_checkbox()" name=<%=key%>></p></td></form>
+					<form method="post"><td><p><input type="checkbox" style="opacity: 1; pointer-events: visible;" class="checkbox1" onclick="check_checkbox()" name="<%=key%>"></p></td></form>
 					<%count = count+1;%>
 					<td class="studentName"><%=(students[key].Name)%></td>
 					<td class="studentRno"><%=(key)%></td>
@@ -118,9 +118,9 @@
 					<td><%=(students[key].PhoneNo)%></td>
 					<td><%=(students[key].TotalAttendance)+'/'+total_days%></td>
 					<% var link1 = '/admin_change/?id='+key+'&year='+year%>
-					<td><a href=<%=link1%>><button>Update</button></a></td>
+					<td><a href="<%=link1%>"><button>Update</button></a></td>
 					<% var link = '/admin_remove/?id='+key+'&year='+year%>
-					<td><a href=<%=link%>><button>Remove</button></a></td>
+					<td><a href="<%=link%>"><button>Remove</button></a></td>
 				</tr>
 					<%});%>
 			</table><br/>

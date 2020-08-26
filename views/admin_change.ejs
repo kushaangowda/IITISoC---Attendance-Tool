@@ -38,7 +38,7 @@
 			<p>Email ID: <%= students[key].EmailID%>
 			<p>Phone No: <%= students[key].PhoneNo%>
 			<p>Year of admission: <%=year%></p>
-			<%name = students[key].Name%>
+			<%name = String(students[key].Name)%>
 			<%rno = Number(key)%>
 			<%hname = students[key].HostelName%>
 			<%bname = students[key].BranchName%>
@@ -49,13 +49,13 @@
 			<% }});%>
 
 		<form method="post">
-			<p>Name: <input type="text" name="name" required="true" value=<%=name%>></p>
-			<p>Roll no: <input type="number" name="rno" required="true" value=<%=rno%>></p>
-			<p>Hostel Name: <input type="text" name="hostelname" required="true" value=<%=hname%>></p>
-			<p>Room No: <input type="text" name="roomno" required="true" value=<%=roomno%>></p>
-			<p>Branch Name: <input type="text" name="branchname" required="true" value=<%=bname%>></p>
-			<p>Email ID: <input type="text" name="emailid" required="true" value=<%=email%>></p>
-			<p>Phone No: <input type="number" name="phoneno" required="true" value=<%=pno%>></p>
+			<p>Name: <input type="text" name="name" required="true" value="<%=name%>"></p>
+			<p>Roll no: <input type="number" name="rno" required="true" value="<%=rno%>"></p>
+			<p>Hostel Name: <input type="text" name="hostelname" required="true" value="<%=hname%>"></p>
+			<p>Room No: <input type="text" name="roomno" required="true" value="<%=roomno%>"></p>
+			<p>Branch Name: <input type="text" name="branchname" required="true" value="<%=bname%>"></p>
+			<p>Email ID: <input type="text" name="emailid" required="true" value="<%=email%>"></p>
+			<p>Phone No: <input type="number" name="phoneno" required="true" value="<%=pno%>"></p>
 			<button type="submit">Update</button>
 		</form>
 	</body>
