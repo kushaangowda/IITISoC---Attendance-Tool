@@ -1,32 +1,123 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title> My First Express App</title>
-  		
+		<title> Add Student</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="css/admin_change_details.css" type="text/css">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" async="" src="http://www.googletagmanager.com/gtag/js?id=G-SD5ZLVWXK3&amp;l=dataLayer&amp;cx=c"></script><script src="https://www.googletagmanager.com/gtag/js?l=dataLayer" async=""></script>
 	</head>
 	<body>		
-		<nav>
+		<!-- <nav>
 			<a href="/admin_home" class="active">Home</a>
 			<a href="/admin_change_details">Manage</a>
 			<a href="/admin_profile">Profile</a>
+		</nav> -->
+
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">Hello, <%=user%></a>
+			
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			  </button>
+	
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item ">
+						<a class="nav-link" href="/admin_home">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="/admin_change_details">Manage</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/admin_change_password">Change Password</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="logout">Sign Out</a>
+					</li>
+				</ul>
+			</div>
 		</nav>
-		<h1> Hello <%=user%> </h1>
+		<!-- <h1> Hello <%=user%> </h1> -->
+		<div class="container-fluid">
 		<form method="post">
-			<p>Name: <input type="text" name="name" required="true"/></p>
-			<p>Roll no: <input type="number" name="rno" required="true"/></p>
-			<p>Hostel Name: <input type="text" name="hostelname" required="true"/></p>
-			<p>Room No: <input type="text" name="roomno" required="true"/></p>
-			<p>Branch Name: <input type="text" name="branchname" required="true"/></p>
-			<p>Email ID: <input type="text" name="emailid" required="true"/></p>
-			<p>Phone No: <input type="number" name="phoneno" required="true"/></p>
-			<p>Year of admission: <input type="number" name="year" required="true"/></p>
-			<button type="submit">Add</button>
-		</form>
+			<!-- 			<p>Name: <input type="text" name="name" required="true"></p>
+						<p>Roll no: <input type="number" name="rno" required="true"></p>
+						<p>Hostel Name: <input type="text" name="hostelname" required="true"></p>
+						<p>Room No: <input type="text" name="roomno" required="true"></p>
+						<p>Branch Name: <input type="text" name="branchname" required="true"></p>
+						<p>Email ID: <input type="text" name="emailid" required="true"></p>
+						<p>Phone No: <input type="number" name="phoneno" required="true"></p>
+						<p>Year of admission: <input type="number" name="year" required="true"></p>
+				 -->
+				<div class="form-group row">
+				<label for="inputEmail3" class="col-sm-2 col-form-label">Name :</label>
+				<div class="col-sm-10">
+				  <input type="text" required="true" name="name" class="form-control" id="inputEmail3">
+				</div>
+			  </div>
+			  <div class="form-group row">
+				<label for="inputPassword3" class="col-sm-2 col-form-label">Roll No. :</label>
+				<div class="col-sm-10">
+				  <input type="number" required="true" name="rno" class="form-control" id="inputPassword3">
+				</div>
+			  </div>
+			  <div class="form-group row">
+				<label for="inputPassword3" class="col-sm-2 col-form-label">Hostel Name :</label>
+				<div class="col-sm-10">
+				  <input type="text" required="true" name="hostelname" class="form-control" id="inputPassword3">
+				</div>
+			  </div>
+			  <div class="form-group row">
+				<label for="inputPassword3" class="col-sm-2 col-form-label">Room No. :</label>
+				<div class="col-sm-10">
+				  <input type="text" required="true" name="roomno" class="form-control" id="inputPassword3">
+				</div>
+			  </div>
+			  <div class="form-group row">
+				<label for="inputPassword3" class="col-sm-2 col-form-label">Branch Name :</label>
+				<div class="col-sm-10">
+				  <input type="text" name="branchname" required="true" class="form-control" id="inputPassword3">
+				</div>
+			  </div>
+			  <div class="form-group row">
+				<label for="inputPassword3" class="col-sm-2 col-form-label">E-Mail ID :</label>
+				<div class="col-sm-10">
+				  <input type="email" name="emailid" required="true" class="form-control" id="inputPassword3">
+				</div>
+			  </div>
+			  <div class="form-group row">
+				<label for="inputPassword3" class="col-sm-2 col-form-label">Phone No. :</label>
+				<div class="col-sm-10">
+				  <input type="number" name="phoneno" required="true" class="form-control" id="inputPassword3">
+				</div>
+			  </div>
+			  <div class="form-group row">
+				<label for="inputPassword3" class="col-sm-2 col-form-label">Year Of Admission :</label>
+				<div class="col-sm-10">
+				  <input type="number" name="year" required="true" class="form-control" id="inputPassword3">
+				</div>
+			  </div>
+			  <button type="submit" class="btn btn-info">Add</button>
+						<!-- <button type="submit">Add</button> -->
+					</form>
 		<%if(typeof error!='undefined'){%>
-			<p><%=error%></p>
+			<div class="alert alert-danger" role="alert">
+				<p><%=error%></p>
+			  </div>
 		<%}%>
 		<%if(typeof success!='undefined'){%>
-			<p><%=success%></p>
+			
+			<div class="alert alert-success" role="alert">
+				<p><%=success%></p>
+			  </div>
 		<%}%>
+	</div>
 	</body>
 </html>
