@@ -8,16 +8,54 @@
 		<script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-auth.js"></script>
 
 		
-  		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="css/admin_change_details.css" type="text/css">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" async="" src="http://www.googletagmanager.com/gtag/js?id=G-SD5ZLVWXK3&amp;l=dataLayer&amp;cx=c"></script>
+  <script src="https://www.googletagmanager.com/gtag/js?l=dataLayer" async=""></script>
 	</head>
-	<body>
-		<nav>
+	<body style="background-color: #e7e7e7;">
+		<!-- <nav>
 			<a href="/admin_home" class="active">Home</a>
 			<a href="/admin_change_details">Manage</a>
 			<a href="/admin_profile">Profile</a>
+		</nav> -->
+
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">Hello, <%=user%></a>
+			
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			  </button>
+	
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item ">
+						<a class="nav-link" href="/admin_home">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="/admin_change_details">Manage</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/admin_change_password">Change Password</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="logout">Sign Out</a>
+					</li>
+				</ul>
+			</div>
 		</nav>
-		<h1> Hello <%=user%> </h1>
-		<a href="/admin_add_excel_file"><button>Upload Excel file</button></a>
-		<a href="/admin_add"><button>Type details manually</button></a>
+
+		<!-- <h1> Hello <%=user%> </h1> -->
+		<div class="container-fluid">
+		<a href="/admin_add_excel_file"><button type="button" class="btn btn-info">Upload Excel File</button></a>
+		<a href="/admin_add"><button type="button" class="btn btn-info">Type Details Manually</button></a>
+		</div>
 	</body>
 </html>
