@@ -1,42 +1,113 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title> My First Express App</title>
+		<title> Add Student</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="text/javascript" async=""
+			src="http://www.googletagmanager.com/gtag/js?id=G-SD5ZLVWXK3&amp;l=dataLayer&amp;cx=c"></script>
+		<script src="https://www.googletagmanager.com/gtag/js?l=dataLayer" async=""></script>
+	<body style="background-color: #e7e7e7;">
+		
 
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-
-  		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-
-	</head>
-	<body>
-		<nav>
-			<a href="/admin_home" class="active">Home</a>
-			<a href="/admin_change_details">Manage</a>
-			<a href="/admin_profile">Profile</a>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">Hello, <%=user%></a>
+	
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+	
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item ">
+						<a class="nav-link" href="/admin_home">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="/admin_change_details">Manage</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/admin_change_password">Change Password</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="logout">Sign Out</a>
+					</li>
+				</ul>
+			</div>
 		</nav>
-		<h1> Hello <%=user%></h1>
+
+		<div class="container-fluid text-center mt-3">
+		<!-- <h1> Hello <%=user%></h1> -->
 		<% var i=0;%>
 		<% var link = '/remove_multiple/?';%>
 		<% var keys = Object.keys(students)%>
 			<% keys.forEach(function(key){ %>
 			<% if((key)==data[i]){%>
 				<%i=i+1;%>
-				<p>Name: <%= students[key].Name%></p>
+				<div class="student mt-3 mb-3">
+				<!-- <p>Name: <%= students[key].Name%></p>
 				<p>Roll No: <%= students[key].Rno%></p>
 				<p>Hostel Name: <%= students[key].HostelName%>
 				<p>Room No: <%= students[key].RoomNo%>
 				<p>Branch Name: <%= students[key].BranchName%>
 				<p>Email ID: <%= students[key].EmailID%>
 				<p>Phone No: <%= students[key].PhoneNo%>
-				<p>Year of admission: <%= year%></p>
+				<p>Year of admission: <%= year%></p> -->
 				<%link+='data[]='+key+'&'%>
-				<br/>
+
+				<table class="table table-dark" style="width:700px; margin:auto">
+					<thead>
+						<tr>
+						<th scope="col">Key</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+					<tbody>
+						<tr>
+						<td>Name</td>
+						<td> <%= students[key].Name%></td>
+					  </tr>
+					  <tr>
+						<td>Roll No</td>
+						<td> <%= key%></td>
+					  </tr>
+					  <tr>
+						<td>Hostel Name</td>
+						<td> <%= students[key].HostelName%></td>
+					</tr>
+					<tr>
+						<td>Room No</td>
+						<td><%= students[key].RoomNo%></td>
+					</tr>
+					  <tr>
+						  <td>Branch Name</td>
+						<td><%= students[key].BranchName%></td>
+					</tr>
+					<tr>
+						<td>Email ID</td>
+						<td><%= students[key].EmailID%></td>
+					</tr>
+					<tr>
+						<td>Phone No</td>
+						<td><%= students[key].PhoneNo%></td>
+					</tr>
+					<tr>
+						<td>Year of admissiono</td>
+						<td><%= year%></td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+				<hr>
 			<% }});%>
 			<%link+='year='+year;%>
-			<a href="<%=link%>"><button>Remove these students</button></a><br/>
-	</body>
+			<a href="<%=link%>"><button type="button" class="btn btn-info">Remove These Students</button></a><br/>
+		</div>
+		</body>
 </html>
