@@ -21,7 +21,7 @@ body
   /* Set up proportionate scaling */
   width: 100%;
   height: auto;
-	
+  
   /* Set up positioning */
   position: fixed;
   top: 0;
