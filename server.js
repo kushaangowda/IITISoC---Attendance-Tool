@@ -807,7 +807,7 @@ async function admin_change_password_stuff1(password,req,res) {
 		[`${req.session.user}`]:password
 	};
 	docRef.set(data,{merge:true});
-	res.redirect('/admin_profile');
+	res.redirect('/admin_home');
   }
 }
 
