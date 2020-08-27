@@ -51,7 +51,7 @@ schedule.scheduleJob({hour: 1, minute: 0}, function(){
     reset_data();
 });
 
-schedule.scheduleJob({hour:0, minute: 0}, function(){
+schedule.scheduleJob({hour: 0, minute: 0}, function(){
     add_data_to_admin();
 });
 
@@ -282,17 +282,31 @@ app.get('/remove',(req,res)=>{
 });
 
 async function remove(req,res){
-	var docRef2 = db.collection('admin').doc('student list '+req.query.year);
-	var doc2 = await docRef2.get();
+	var CollRef = db.collection('admin');
+	var rno = req.query.id;
 	const FieldValue = admin.firestore.FieldValue;
-	var list = doc2.data();
-	var rno = req.query.id
-	for(key in list){
-		var id={};
-		id[`${key}.${rno}`] = FieldValue.delete();
-		docRef2.update(id);
-	}
+	const snapshot = await CollRef.get();
+	snapshot.forEach(doc1 => {
+		for (key in doc1.data()){
+	    	var id={};
+			id[`${key}.${rno}`] = FieldValue.delete();
+			db.collection('admin').doc(doc1.id).update(id);
+		}
+	});
 	res.redirect('/admin_change_details');
+
+
+	// var docRef2 = db.collection('admin').doc('student list '+req.query.year);
+	// var doc2 = await docRef2.get();
+	// const FieldValue = admin.firestore.FieldValue;
+	// var list = doc2.data();
+	// var rno = req.query.id
+	// for(key in list){
+	// 	var id={};
+	// 	id[`${key}.${rno}`] = FieldValue.delete();
+	// 	docRef2.update(id);
+	// }
+	// res.redirect('/admin_change_details');
 }
 
 app.get('/remove_multiple',(req,res)=>{
@@ -308,18 +322,32 @@ app.get('/remove_multiple',(req,res)=>{
 })
 
 async function remove_multiple(req,res,data){
-	var docRef2 = db.collection('admin').doc('student list '+req.query.year);
-	var doc2 = await docRef2.get();
-	var list = doc2.data();
-	var id={};
+	var CollRef = db.collection('admin');
 	const FieldValue = admin.firestore.FieldValue;
-	for(key in list){
-		for(var i=0;i<data.length;i++){
-			id[`${key}.${data[i]}`] = FieldValue.delete();
-			docRef2.update(id);
+	const snapshot = await CollRef.get();
+	snapshot.forEach(doc1 => {
+		for (key in doc1.data()){
+	    	for(var i=0;i<data.length;i++){
+	    		var id={};
+				id[`${key}.${data[i]}`] = FieldValue.delete();
+				db.collection('admin').doc(doc1.id).update(id);
+			}
 		}
-	}
+	});
 	res.redirect('/admin_change_details');
+
+	// var docRef2 = db.collection('admin').doc('student list '+req.query.year);
+	// var doc2 = await docRef2.get();
+	// var list = doc2.data();
+	// var id={};
+	// const FieldValue = admin.firestore.FieldValue;
+	// for(key in list){
+	// 	for(var i=0;i<data.length;i++){
+	// 		id[`${key}.${data[i]}`] = FieldValue.delete();
+	// 		docRef2.update(id);
+	// 	}
+	// }
+	// res.redirect('/admin_change_details');
 }
 
 app.get('/logout',(req,res)=>{
@@ -572,10 +600,11 @@ app.post('/admin_home', function(req, res){
 	if(!req.session.user || !req.cookies.user_sid){
 		res.redirect('/admin_login')
 	}
-	var year = req.body.year;
+	// var year = req.body.year;
+	var hostel = req.body.hostel;
     var date = (req.body.date);
     console.log(date);
-    admin_home_post_stuff(date,year,res,req);
+    admin_home_post_stuff(date,hostel,res,req);
 });
 
 app.get('/admin_reset_password',(req,res)=>{
@@ -696,12 +725,12 @@ async function admin_add_stuff(name,rno,hostelname,roomno,branchname,emailid,pho
 async function admin_change_post_stuff(name,rno,hostelname,roomno,branchname,emailid,phoneno,year,res,req) {
   // [START get_document]
   var docRef1 = db.collection('Student').doc(year+' list');
-  var docRef2 = db.collection('admin').doc('student list '+year);
+  
   const id = req.query.id;
   const doc1 = await docRef1.get();
-  const doc2 = await docRef2.get();
+ 
   var list1 = doc1.data();
-  var list2 = doc2.data();
+  
   if (!doc1.exists) {
     console.log('No such document!');
   } else {
@@ -710,6 +739,7 @@ async function admin_change_post_stuff(name,rno,hostelname,roomno,branchname,ema
     	for(key in doc1.data()){
     		if(Number(key)==Number(id)){
     			ta=list1[key].TotalAttendance;
+    			host = list1[key].HostelName;
     			break;
     		}
     	}
@@ -731,6 +761,9 @@ async function admin_change_post_stuff(name,rno,hostelname,roomno,branchname,ema
 			}
 		};
 		docRef1.set(data2,{merge:true});
+    	var docRef2 = db.collection('admin').doc('student list '+host);
+ 		const doc2 = await docRef2.get();
+		var list2 = doc2.data();
 		for(key in list2){
 			var x = list2[key][id];
 			console.log(x);
@@ -778,7 +811,7 @@ async function admin_change_password_stuff1(password,req,res) {
   }
 }
 
-async function admin_home_post_stuff(fulldate,year1,res,req) {
+async function admin_home_post_stuff(fulldate,hostel,res,req) {
   // [START get_document]
   	const fullDate = String(fulldate);
   	var year = (fullDate.slice(0,4));
@@ -789,14 +822,14 @@ async function admin_home_post_stuff(fulldate,year1,res,req) {
 	if(month[0]=='0')
 		month = month[1];
 	const fullDateModified = date+'-'+month+'-'+year;
-
-	var docRef = db.collection('admin').doc('student list '+year1);
+	
+	var docRef = db.collection('admin').doc('student list '+hostel);
 
 	const doc = await docRef.get();
 	const student = doc.data();
   	if (!doc.exists) {
     	console.log('No such document!');
-    	res.render('admin_home.ejs',{user:req.session.user,error:'invalid date or year of admission'});
+    	res.render('admin_home.ejs',{user:req.session.user,error:'data not found'});
   	} else {
     	console.log('Document data found', doc.data());
     	var doc1 = await total_days_list.get();
@@ -810,7 +843,7 @@ async function admin_home_post_stuff(fulldate,year1,res,req) {
     		if(key==fullDateModified){
     			var doc1 = student[key];
     			c=1;
-    			res.render('admin_home.ejs',{user:req.session.user,students:doc1,total_days:total_days,date:fullDateModified,year:year1});
+    			res.render('admin_home.ejs',{user:req.session.user,students:doc1,total_days:total_days,date:fullDateModified,hostel:hostel});
     			break;
     		}
     	}
@@ -902,11 +935,12 @@ async function add_data_to_admin(){
 							RoomNo: student[key].RoomNo,
 							EmailID: student[key].EmailID,
 							PhoneNo: Number(student[key].PhoneNo),
-							BranchName: student[key].BranchName
+							BranchName: student[key].BranchName,
+							Year:Number(year)
 						}
 					}
 				};
-				db.collection('admin').doc('student list '+year).set(data,{merge:true});
+				db.collection('admin').doc('student list '+student[key].HostelName).set(data,{merge:true});
 	  		}else{
 	  			var t = 1 + Number(student[key].TotalAttendance);
 	  			var id={};
