@@ -1,16 +1,17 @@
-
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>Home page</title>
-
+		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
 
 		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
 
   		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-		<link href="../css/home.css" rel="stylesheet"/>  
+  		<link rel="stylesheet" type="text/css" href="css/home.css">
 	</head>
 	
 	<body>
@@ -18,7 +19,6 @@
 			<span class="navbar-brand mb-0 h1 text-light">Mark Your Attendance</span>
 		</nav>
 		<div class="container-fluid">
-
 			<form method='post'>
 				<div class="form-group">
 					<div class="input-group-prepend mb-3">
@@ -26,13 +26,13 @@
 					</div>
 					<input type="number" name="year" required="true"  class="form-control mb-3"
 					aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
+					<!-- <p><input type="submit" name="submit" value="submit" class="btn btn-primary"></p> -->
 					<button type="submit" class="btn btn-primary">submit</button>
 				</div>
 			</form>
-	
-	
+
+
 			<a href="/"><button type="submit" class="btn btn-warning">Not Student? Click here</button></a>
-			<hr>
 			<div class="table-responsive">
 			<%if(typeof year!='undefined'){%>
 				<h5>Year of admission: <%=year%></h5>
@@ -48,7 +48,7 @@
 				</div>
 				</form>
 					<%var i=1;%>
-	
+
 					<thead><tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Roll No</th><th scope="col">Attendance</th><th scope="col">Mark Attendance</th></tr></thead>
 					<% var keys = Object.keys(students)%>
 					<% keys.forEach(function(key){ %>
@@ -68,68 +68,67 @@
 				<%}%>
 			</tbody>
 			</table><br/>
-	
-	
+
+
 			<%if(typeof error!='undefined'){%>
 				<p><%= error%></p>
 			<%}%>
-			
-			
-			
-		</div>
 
-		<!-- TODO: Add SDKs for Firebase products that you want to use
-     	https://firebase.google.com/docs/web/setup#available-libraries -->
+
+
 
 		<!-- The core Firebase JS SDK is always required and must be listed first -->
 		<script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
 
+		<!-- TODO: Add SDKs for Firebase products that you want to use
+     	https://firebase.google.com/docs/web/setup#available-libraries -->
 		<script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-analytics.js"></script>
 
 		<script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-auth.js"></script>
 
 		<script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-database.js"></script>
-	
+
 		<script>
-			// Your web app's Firebase configuration
-			var firebaseConfig = {
-			  apiKey: "AIzaSyAjJ2UNj58LOkgxBfMhc3YhQqfB0yKCSiA",
-			  authDomain: "iitisoc.firebaseapp.com",
-			  databaseURL: "https://iitisoc.firebaseio.com",
-			  projectId: "iitisoc",
-			  storageBucket: "iitisoc.appspot.com",
-			  messagingSenderId: "424029480675",
-			  appId: "1:424029480675:web:65e77446da3c2118c047d6",
-			  measurementId: "G-SD5ZLVWXK3"
-			};
-			// Initialize Firebase
-			firebase.initializeApp(firebaseConfig);
-			firebase.analytics();
-	  </script>
-	  <script type="text/javascript">
-		  function searchName(){
-			  var mess = document.getElementById('search').value;
-			  if(mess!=''){
-				  var i=0;
-				  while(document.getElementsByClassName('studentName')[i]){
-					  if(document.getElementsByClassName('studentName')[i].innerHTML.indexOf(mess)!=-1 || String(document.getElementsByClassName('studentRno')[i].innerHTML).indexOf(mess)!=-1){
-						  document.getElementsByClassName('student_details')[i].removeAttribute('style');
-					  }
-					  else{
-						  document.getElementsByClassName('student_details')[i].style.display = 'none';
-					  }
-					  i=i+1;
-				  }
-			  }
-			  else{
-				  var i=0;
-				  while(document.getElementsByClassName('studentName')[i]){
-						  document.getElementsByClassName('student_details')[i].removeAttribute('style');
-					  i=i+1;
-				  }
-			  }
-		  }
-	  </script>
-	
+	  		// Your web app's Firebase configuration
+	  		var firebaseConfig = {
+	    		apiKey: "AIzaSyAjJ2UNj58LOkgxBfMhc3YhQqfB0yKCSiA",
+	    		authDomain: "iitisoc.firebaseapp.com",
+	    		databaseURL: "https://iitisoc.firebaseio.com",
+	    		projectId: "iitisoc",
+	    		storageBucket: "iitisoc.appspot.com",
+	    		messagingSenderId: "424029480675",
+	    		appId: "1:424029480675:web:65e77446da3c2118c047d6",
+	    		measurementId: "G-SD5ZLVWXK3"
+	  		};
+	  		// Initialize Firebase
+	  		firebase.initializeApp(firebaseConfig);
+	  		firebase.analytics();
+		</script>
+		<script type="text/javascript">
+			function searchName(){
+				var mess = document.getElementById('search').value;
+				mess = mess.toLowerCase();
+				if(mess!=''){
+					var i=0;
+					while(document.getElementsByClassName('studentName')[i]){
+						if(document.getElementsByClassName('studentName')[i].innerHTML.toLowerCase().indexOf(mess)!=-1 || String(document.getElementsByClassName('studentRno')[i].innerHTML).toLowerCase().indexOf(mess)!=-1){
+							document.getElementsByClassName('student_details')[i].removeAttribute('style');
+						}
+						else{
+							document.getElementsByClassName('student_details')[i].style.display = 'none';
+						}
+						i=i+1;
+					}
+				}
+				else{
+					var i=0;
+					while(document.getElementsByClassName('studentName')[i]){
+							document.getElementsByClassName('student_details')[i].removeAttribute('style');
+						i=i+1;
+					}
+				}
+			}
+		</script>
+		
 	</body>
 </html>
