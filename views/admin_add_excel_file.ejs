@@ -2,20 +2,55 @@
 <html>
 	<head>
 		<title> My First Express App</title>
-  		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="css/admin_change_details.css" type="text/css">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" async="" src="http://www.googletagmanager.com/gtag/js?id=G-SD5ZLVWXK3&amp;l=dataLayer&amp;cx=c"></script><script src="https://www.googletagmanager.com/gtag/js?l=dataLayer" async=""></script>
 	</head>
 	<body>
-		<nav>
+		<!-- <nav>
 			<a href="/admin_home" class="active">Home</a>
 			<a href="/admin_change_details">Manage</a>
 			<a href="/admin_profile">Profile</a>
+		</nav> -->
+
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">IITI Attendance System</a>
+			
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			  </button>
+	
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item ">
+						<a class="nav-link" href="/admin_home">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/admin_change_details">Manage</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="/admin_change_password">Change Password</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="logout">Sign Out</a>
+					</li>
+				</ul>
+			</div>
 		</nav>
-		<h1> Hello <%=user%> </h1>
+		<!-- <h1> Hello <%=user%> </h1> -->
 		<!-- <form method="post">
 			<p>Year of admission: <input type="number" name="year" required="true" /></p>
 			<p><input type="file" id="myFile" name="file" required="true"></p>
 			<button type="submit">Upload</button>
 		</form> -->
+		<div class="container">
 		<p>Format of xlsx file:</p>
 		<img src="images/excelFile.png"/>
 		<form id="uploadForm" enctype="multipart/form-data" action="admin_add_excel_file" method="post">
@@ -25,7 +60,10 @@
 			<input type="submit" value="Upload" name="submit">
 		</form>
 		<%if(typeof success!='undefined'){%>
-			<p><%=success%></p>
+			<div class="alert alert-success" role="alert">
+				<p><%=success%></p>
+			  </div>
 		<%}%>
+		</div>
 	</body>
 </html>
