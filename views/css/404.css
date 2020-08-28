@@ -1,0 +1,35 @@
+@media only screen and (min-width: 1132px)
+{
+	body{
+	background-image: url('https://img5.goodfon.com/wallpaper/nbig/4/48/moon-night-man-silhouette-mountain-sport-climb-climbing-digi.jpg');
+	background-size: cover;
+	font-family: 'Nunito';
+	font-size: 22px;
+	background-repeat: no-repeat;
+	}
+	div{
+		color: #ffffff;
+		display: inline-block;
+		float: right;
+		padding:5%;
+		padding-top: 15%
+	}
+}
+@media only screen and (max-width: 1131px)
+{
+	body{
+	background-color: #070742;
+	font-family: 'Nunito';
+	font-size: 22px;
+	background-repeat: no-repeat;
+	}
+	div{
+		text-align: center;
+		vertical-align: middle;
+		color: #ffffff;
+		/*display: inline-block;
+		float: right;*/
+		padding:5%;
+		padding-top: 15%
+	}
+}
