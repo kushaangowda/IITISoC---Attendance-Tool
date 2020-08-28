@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title> My First Express App</title>
-
+		<title> Add Students</title>
 		<script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
-
 		<script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-auth.js"></script>
-
-		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -17,8 +13,8 @@
 		<link rel="stylesheet" href="css/admin_change_details.css" type="text/css">
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-  <script type="text/javascript" async="" src="http://www.googletagmanager.com/gtag/js?id=G-SD5ZLVWXK3&amp;l=dataLayer&amp;cx=c"></script>
-  <script src="https://www.googletagmanager.com/gtag/js?l=dataLayer" async=""></script>
+  		<script type="text/javascript" async="" src="http://www.googletagmanager.com/gtag/js?id=G-SD5ZLVWXK3&amp;l=dataLayer&amp;cx=c"></script>
+  		<script src="https://www.googletagmanager.com/gtag/js?l=dataLayer" async=""></script>
 	</head>
 	<body style="background-color: #e7e7e7;">
 		<!-- <nav>
@@ -26,7 +22,6 @@
 			<a href="/admin_change_details">Manage</a>
 			<a href="/admin_profile">Profile</a>
 		</nav> -->
-
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<a class="navbar-brand" href="#">Hello, <%=user%></a>
 			
@@ -51,11 +46,9 @@
 				</ul>
 			</div>
 		</nav>
-
-		<!-- <h1> Hello <%=user%> </h1> -->
 		<div class="container-fluid">
-		<a href="/admin_add_excel_file"><button type="button" class="btn btn-info">Upload Excel File</button></a>
-		<a href="/admin_add"><button type="button" class="btn btn-info">Type Details Manually</button></a>
+			<a href="/admin_add_excel_file"><button class="btn btn-info">Upload Excel file</button></a>
+			<a href="/admin_add"><button class="btn btn-info">Type details manually</button></a>
 		</div>
 	</body>
 </html>

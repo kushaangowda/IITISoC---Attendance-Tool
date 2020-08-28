@@ -1,57 +1,52 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-	<title> My First Express App</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript" async=""
-		src="http://www.googletagmanager.com/gtag/js?id=G-SD5ZLVWXK3&amp;l=dataLayer&amp;cx=c"></script>
-	<script src="https://www.googletagmanager.com/gtag/js?l=dataLayer" async=""></script>
-
-</head>
-
-<body style="background-color: #e7e7e7;">
-	<!-- <nav>
+	<head>
+  		<title>Update Details</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="text/javascript" async=""
+			src="http://www.googletagmanager.com/gtag/js?id=G-SD5ZLVWXK3&amp;l=dataLayer&amp;cx=c"></script>
+		<script src="https://www.googletagmanager.com/gtag/js?l=dataLayer" async=""></script>
+	</head>
+	<body>
+		<!-- <nav>
 			<a href="/admin_home" class="active">Home</a>
 			<a href="/admin_change_details">Manage</a>
 			<a href="/admin_profile">Profile</a>
 		</nav> -->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">IITI Attendance System</a>
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="#">IITI Attendance System</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item ">
+						<a class="nav-link" href="/admin_home">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="admin_change_details">Manage</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="/admin_change_password">Change Password</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="logout">Sign Out</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
 
-		<div class="collapse navbar-collapse" id="collapsibleNavbar">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item ">
-					<a class="nav-link" href="/admin_home">Home <span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="admin_change_details">Manage</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link active" href="/admin_change_password">Change Password</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="logout">Sign Out</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
 
-	
-		<!-- <h1> Hello <%=user%></h1> -->
 		<%var name = ''%>
 		<%var rno = 0%>
 		<%var hname = ''%>
@@ -61,110 +56,92 @@
 		<%var pno = 0%>
 
 		<div class="container-fluid">
-		<div class="dropdown">
-			<button class="btn btn-info m-3 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			  Old Information
-			</button>
-		<div class="dropdown-menu p-4 text-muted" style="max-width: 1500px;">
-			<% var keys = Object.keys(students)%>
-		<% keys.forEach(function(key){ %>
-		<% if((key)==id){%>
-		<p>Name: <%= students[key].Name%></p>
-		<p>Roll No: <%= key%></p>
-		<p>Hostel Name: <%= students[key].HostelName%>
-		<p>Room No: <%= students[key].RoomNo%>
-		<p>Branch Name: <%= students[key].BranchName%>
-		<p>Email ID: <%= students[key].EmailID%>
-		<p>Phone No: <%= students[key].PhoneNo%>
-		<p>Year of admission: <%=year%></p>
-		<%name = String(students[key].Name)%>
-		<%rno = Number(key)%>
-		<%hname = students[key].HostelName%>
-		<%bname = students[key].BranchName%>
-		<%roomno = students[key].RoomNo%>
-		<%email = students[key].EmailID%>
-		<%pno = Number(students[key].PhoneNo)%>
-		  </div>
-		</div>
+			<div class="dropdown">
+			<button class="btn btn-info m-3 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Old Information</button>
+				<div class="dropdown-menu p-4 text-muted" style="max-width: 1500px;">
+					<% var keys = Object.keys(students)%>
+						<% keys.forEach(function(key){ %>
+						<% if((key)==id){%>
+						<p>Name: <%= students[key].Name%></p>
+						<p>Roll No: <%= key%></p>
+						<p>Hostel Name: <%= students[key].HostelName%></p>
+						<p>Room No: <%= students[key].RoomNo%></p>
+						<p>Branch Name: <%= students[key].BranchName%></p>
+						<p>Email ID: <%= students[key].EmailID%></p>
+						<p>Phone No: <%= students[key].PhoneNo%></p>
+						<p>Year of admission: <%=year%></p>
+						<%name = String(students[key].Name)%>
+						<%rno = Number(key)%>
+						<%hname = students[key].HostelName%>
+						<%bname = students[key].BranchName%>
+						<%roomno = students[key].RoomNo%>
+						<%email = students[key].EmailID%>
+						<%pno = Number(students[key].PhoneNo)%>
+					</div>
+				</div>
+				<% }});%>
 
-		<% }});%>
-
-		<!-- <form method="post">
-			<p>Name: <input type="text" name="name" required="true" value="<%=name%>"></p>
-			<p>Roll no: <input type="number" name="rno" required="true" value="<%=rno%>"></p>
-			<p>Hostel Name: <input type="text" name="hostelname" required="true" value="<%=hname%>"></p>
-			<p>Room No: <input type="text" name="roomno" required="true" value="<%=roomno%>"></p>
-			<p>Branch Name: <input type="text" name="branchname" required="true" value="<%=bname%>"></p>
-			<p>Email ID: <input type="text" name="emailid" required="true" value="<%=email%>"></p>
-			<p>Phone No: <input type="number" name="phoneno" required="true" value="<%=pno%>"></p>
-			<button type="submit">Update</button>
-		</form> -->
-		
-		<form method="post">
-			<!-- 			<p>Name: <input type="text" name="name" required="true"></p>
-						<p>Roll no: <input type="number" name="rno" required="true"></p>
-						<p>Hostel Name: <input type="text" name="hostelname" required="true"></p>
-						<p>Room No: <input type="text" name="roomno" required="true"></p>
-						<p>Branch Name: <input type="text" name="branchname" required="true"></p>
-						<p>Email ID: <input type="text" name="emailid" required="true"></p>
-						<p>Phone No: <input type="number" name="phoneno" required="true"></p>
-						<p>Year of admission: <input type="number" name="year" required="true"></p>
-				 -->
-			<div class="form-group row">
+			<form method="post">
+				<!-- <p>Name: <input type="text" name="name" required="true" value="<%=name%>"></p>
+				<p>Roll no: <input type="number" name="rno" required="true" value="<%=rno%>"></p>
+				<p>Hostel Name: <input type="text" name="hostelname" required="true" value="<%=hname%>"></p>
+				<p>Room No: <input type="text" name="roomno" required="true" value="<%=roomno%>"></p>
+				<p>Branch Name: <input type="text" name="branchname" required="true" value="<%=bname%>"></p>
+				<p>Email ID: <input type="text" name="emailid" required="true" value="<%=email%>"></p>
+				<p>Phone No: <input type="number" name="phoneno" required="true" value="<%=pno%>"></p>
+				<button type="submit">Update</button> -->
+				<div class="form-group row">
 				<label for="inputEmail3" class="col-sm-2 col-form-label">Name :</label>
-				<div class="col-sm-10">
-					<input type="text" value="<%=name%>" required="true" name="name" class="form-control"
+					<div class="col-sm-10">
+						<input type="text" value="<%=name%>" required="true" name="name" class="form-control"
 						id="inputEmail3">
+					</div>
 				</div>
-			</div>
-			<div class="form-group row">
-				<label for="inputPassword3" class="col-sm-2 col-form-label">Roll No. :</label>
-				<div class="col-sm-10">
-					<input type="number" value="<%=rno%>" required="true" name="rno" class="form-control"
-						id="inputPassword3">
+				<div class="form-group row">
+					<label for="inputPassword3" class="col-sm-2 col-form-label">Roll No. :</label>
+					<div class="col-sm-10">
+						<input type="number" value="<%=rno%>" required="true" name="rno" class="form-control"
+							id="inputPassword3">
+					</div>
 				</div>
-			</div>
-			<div class="form-group row">
-				<label for="inputPassword3" class="col-sm-2 col-form-label">Hostel Name :</label>
-				<div class="col-sm-10">
-					<input type="text" value="<%=hname%>" required="true" name="hostelname" class="form-control"
-						id="inputPassword3">
+				<div class="form-group row">
+					<label for="inputPassword3" class="col-sm-2 col-form-label">Hostel Name :</label>
+					<div class="col-sm-10">
+						<input type="text" value="<%=hname%>" required="true" name="hostelname" class="form-control"
+							id="inputPassword3">
+					</div>
 				</div>
-			</div>
-			<div class="form-group row">
-				<label for="inputPassword3" class="col-sm-2 col-form-label">Room No. :</label>
-				<div class="col-sm-10">
-					<input type="text" value="<%=roomno%>" required="true" name="roomno" class="form-control"
-						id="inputPassword3">
+				<div class="form-group row">
+					<label for="inputPassword3" class="col-sm-2 col-form-label">Room No. :</label>
+					<div class="col-sm-10">
+						<input type="text" value="<%=roomno%>" required="true" name="roomno" class="form-control"
+							id="inputPassword3">
+					</div>
 				</div>
-			</div>
-			<div class="form-group row">
-				<label for="inputPassword3" class="col-sm-2 col-form-label">Branch Name :</label>
-				<div class="col-sm-10">
-					<input type="text" value="<%=bname%>" name="branchname" required="true" class="form-control"
-						id="inputPassword3">
+				<div class="form-group row">
+					<label for="inputPassword3" class="col-sm-2 col-form-label">Branch Name :</label>
+					<div class="col-sm-10">
+						<input type="text" value="<%=bname%>" name="branchname" required="true" class="form-control"
+							id="inputPassword3">
+					</div>
 				</div>
-			</div>
-			<div class="form-group row">
-				<label for="inputPassword3" class="col-sm-2 col-form-label">E-Mail ID :</label>
-				<div class="col-sm-10">
-					<input type="email" value="<%=email%>" name="emailid" required="true" class="form-control"
-						id="inputPassword3">
+				<div class="form-group row">
+					<label for="inputPassword3" class="col-sm-2 col-form-label">E-Mail ID :</label>
+					<div class="col-sm-10">
+						<input type="email" value="<%=email%>" name="emailid" required="true" class="form-control"
+							id="inputPassword3">
+					</div>
 				</div>
-			</div>
-			<div class="form-group row">
-				<label for="inputPassword3" class="col-sm-2 col-form-label">Phone No. :</label>
-				<div class="col-sm-10">
-					<input type="number" value="<%=pno%>" name="phoneno" required="true" class="form-control"
-						id="inputPassword3">
+				<div class="form-group row">
+					<label for="inputPassword3" class="col-sm-2 col-form-label">Phone No. :</label>
+					<div class="col-sm-10">
+						<input type="number" value="<%=pno%>" name="phoneno" required="true" class="form-control"
+							id="inputPassword3">
+					</div>
 				</div>
-			</div>
-		
-	<button type="submit" class="btn btn-info">Update</button>
-	<!-- <button type="submit">Add</button> -->
-	</form>
-
-	</div>
-</body>
-
+			
+				<button type="submit" class="btn btn-info">Update</button>
+			</form>
+		</div>
+	</body>
 </html>

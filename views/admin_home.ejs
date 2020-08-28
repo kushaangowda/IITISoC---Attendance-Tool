@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title> My First Express App</title>
+		<title>Home Page</title>
 <!-- 
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-			
-		  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
-		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-		  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
-		  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		  <link rel="stylesheet" href="css/admin_home.css" type="text/css">
-		  <meta charset="utf-8">
-		  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="/css/admin_home.css" type="text/css">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
   		<script type="text/javascript">
 			function searchName(){
 				var mess = document.getElementById('search').value;
+				mess = mess.toLowerCase();
 				if(mess!=''){
 					var i=0;
 					while(document.getElementsByClassName('studentName')[i]){
-						if(document.getElementsByClassName('studentName')[i].innerHTML.indexOf(mess)!=-1 || String(document.getElementsByClassName('studentRno')[i].innerHTML).indexOf(mess)!=-1){
+						if(document.getElementsByClassName('studentName')[i].innerHTML.toLowerCase().indexOf(mess)!=-1 || String(document.getElementsByClassName('studentRno')[i].innerHTML).toLowerCase().indexOf(mess)!=-1){
 							document.getElementsByClassName('student_details')[i].style.display = '';
 							// document.getElementsByClassName('student_details')[i].removeAttribute('style');
 						}
@@ -47,7 +49,11 @@
 
 	</head>
 	<body>
-
+		<!-- <nav>
+			<a href="/admin_home" class="active">Home</a>
+			<a href="/admin_change_details">Manage</a>
+			<a href="/admin_profile">Profile</a>
+		</nav> -->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<a class="navbar-brand" href="#">Hello, <%=user%></a>
 			
@@ -72,34 +78,10 @@
 				</ul>
 			</div>
 		</nav>
-	
-	<div class="container-fluid">
-		<!-- <h1>Hello <%=user%></h1> -->
-	
+		<div class="container-fluid">
 		<%if(0){ %>
 		<p>Please <a href='/admin_login'>login</a></p>
-		<%}else{ %>
-	<!-- 
-		<form method="post">
-			<p>Date: <input type="date" name="date" required="true" /></p>
-			<p>Year of admission: <input type="number" name="year" required="true" /></p>
-			<input type="submit" name="submit" value="Submit">
-		</form> -->
-		<!-- <div class="container">
-		<form method="POST">
-			<div class="form-group">
-			  <label class="input" for="exampleInputEmail1">Date</label>
-			  <input type="date" class="form-control" required="true"  name="date" id="exampleInputEmail1" aria-describedby="emailHelp">
-			  <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-			<!-- </div>
-			<div class="form-group">
-			  <label class="input" for="exampleInputPassword1">Year Of Admission</label>
-			  <input type="number" name="year" required="true" class="form-control" id="exampleInputPassword1">
-			</div>
-			
-			<button type="submit" class="btn btn-primary">Submit</button>
-		  </form>
-		</div> --> 
+		<%}else{ %> 
 		<div class="container">
 		<form method="post">
 			<!-- <p>Date: <input type="date" name="date" required="true" /></p> -->
@@ -120,17 +102,13 @@
 			<button type="submit" name="submit" class="btn btn-info">Submit</button>
 		</form>
 		</div>
-
-
 		<% if(typeof error != "undefined"){ %>
-		<!-- <p><%= error%></p> -->
 		<div class="alert alert-danger" role="alert">
 			<%= error%>
 		  </div>
 		<%}else if(typeof students != "undefined"){%>
 			<% var i=1%>
 		<h4 id="red">List of Absentees</h4>
-
 		<form method='post'><p> <span class="ss input-group-text text-dark">Search:</span> <input type="text" name="search" id='search' onkeyup="searchName()" placeholder="Search for name or rollno" /></p></form>	
 			<div class="table-responsive">
 		<table class="table table-dark">
@@ -167,7 +145,6 @@
 	</div>
 	<br />
 		<%}else{%>
-		<!-- <p>Please select date, and year of admission</p> -->
 		<div class="alert alert-primary" role="alert">
 			Please select date, and year of admission
 		  </div>
