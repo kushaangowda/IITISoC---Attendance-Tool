@@ -7,6 +7,7 @@ const schedule = require('node-schedule');
 const passport = require('passport');
 const Stratergy = require('passport-local').Stratergy;
 const session = require('express-session');
+const alert = require('alert');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const sesssionStorage = require('node-sessionstorage');
@@ -621,7 +622,8 @@ app.post('/admin_reset_password',(req,res)=>{
 
 async function admin_reset_password_post_stuff(res,s,pass1,pass2){
 	if(pass1!=pass2){
-		res.redirect('/admin_reset_password/?s='+s,{error:'Given passwords do not match'});
+		alert('passowrds do not match');
+		res.redirect('/admin_reset_password/?s='+s);
 	}else{
 		const resetDoc = await reset_list.get();
 		var list = resetDoc.data();
