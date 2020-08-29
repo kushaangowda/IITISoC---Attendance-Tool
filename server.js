@@ -7,7 +7,6 @@ const schedule = require('node-schedule');
 const passport = require('passport');
 const Stratergy = require('passport-local').Stratergy;
 const session = require('express-session');
-const alert = require('alert');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const sesssionStorage = require('node-sessionstorage');
@@ -459,10 +458,16 @@ async function admin_forgot_password_stuff(user,res) {
 		    var d = new Date();
 		    hours = d.getHours();
 		    minutes = d.getMinutes();
-			 
-			user = String(user).slice(0,String(user).length-4);
+			
+			user = user.split('.');
+			var t = '';
+			for(u in user){
+		    	t+=user[u]+'\.';  
+			}
+			t=t.slice(0,t.length-1);
+			//user = String(user).slice(0,String(user).length-4);
 			var data = {
-				[`${user}`]:{
+				[`${String(t)}`]:{
 					token:token,
 					hours:hours,
 					minutes:minutes
@@ -480,7 +485,7 @@ async function admin_forgot_password_stuff(user,res) {
 			});
 
     		var mailOptions = {
-			  from: 'no-reply@gmail.com',
+			  from: 'no-reply@iiti.ac.in',
 			  to: user,
 			  subject: 'Reset Password',
 			  html: '<p>Click the link given below to reset your password</p><a href="localhost:3000/admin_reset_password/?s='+token+'">Click here</a>'
@@ -622,7 +627,6 @@ app.post('/admin_reset_password',(req,res)=>{
 
 async function admin_reset_password_post_stuff(res,s,pass1,pass2){
 	if(pass1!=pass2){
-		alert('passowrds do not match');
 		res.redirect('/admin_reset_password/?s='+s);
 	}else{
 		const resetDoc = await reset_list.get();
@@ -631,7 +635,7 @@ async function admin_reset_password_post_stuff(res,s,pass1,pass2){
 		for(key in resetDoc.data()){
 			if(list[key].token == s){
 				c=1;
-				var username = key+'.com';
+				var username = key;
 				// var data2=bcrypt.hash(pass1, 9, function(err, hash) {
 				// 	console.log(entities.encode(hash))
 				// 	var data1={
@@ -649,15 +653,24 @@ async function admin_reset_password_post_stuff(res,s,pass1,pass2){
 			}
 		}
 		if(c==1){
-			username = String(username);
-			var len = username.length;
-			username = username.slice(0,len-4);
+			user = username.split('.');
+			var t = '';
+			for(u in user){
+		    	t+=user[u]+'\.';  
+			}
+			t=t.slice(0,t.length-1);
+			console.log('t:',t);
+			// var len = username.length;
+			// username = username.slice(0,len-4);
 			const FieldValue = admin.firestore.FieldValue;
 			const cityRef = db.collection('reset token').doc('token');
 			var datakk={
-				[`${username}`]: FieldValue.delete()
+				
 			}
-			cityRef.update(datakk);
+			console.log(datakk);
+			cityRef.set({
+				[`${String(t)}`]: FieldValue.delete()
+			},{merge:true});
 			admin_user_list.set(data,{merge:true});
 			res.redirect('/admin_login');
 		}
@@ -674,7 +687,7 @@ async function admin_reset_password_stuff(s,res){
 	for(key in resetDoc.data()){
 		if(list[key].token == s){
 			c=1;
-			res.render('admin_reset_password.ejs',{username:key+'.com'});
+			res.render('admin_reset_password.ejs',{username:key});
 		}
 	}
 	if(c==0){
@@ -709,13 +722,13 @@ async function admin_add_stuff(name,rno,hostelname,roomno,branchname,emailid,pho
     var data = {
 		[`${Number(rno)}`]:{
 			Attendance: false,
-			Name: name,
+			Name: String(name).toLowerCase(),
 			TotalAttendance: Number(0),
-			HostelName: hostelname,
-			RoomNo: roomno,
-			EmailID: emailid,
+			HostelName: String(hostelname).toLowerCase(),
+			RoomNo: String(roomno).toLowerCase(),
+			EmailID: String(emailid).toLowerCase(),
 			PhoneNo: Number(phoneno),
-			BranchName: branchname
+			BranchName: String(branchname).toLowerCase()
 		}
 	};
 	docRef.set(data,{merge:true});
@@ -753,13 +766,13 @@ async function admin_change_post_stuff(name,rno,hostelname,roomno,branchname,ema
 	    var data2 = {
 			[`${Number(rno)}`]:{
 				Attendance: false,
-				Name: name,
+				Name: String(name).toLowerCase(),
 				TotalAttendance: Number(ta),
-				HostelName: hostelname,
-				RoomNo: roomno,
-				EmailID: emailid,
+				HostelName: String(hostelname).toLowerCase(),
+				RoomNo: String(roomno).toLowerCase(),
+				EmailID: String(emailid).toLowerCase(),
 				PhoneNo: Number(phoneno),
-				BranchName: branchname
+				BranchName: String(branchname).toLowerCase()
 			}
 		};
 		docRef1.set(data2,{merge:true});
@@ -777,13 +790,13 @@ async function admin_change_post_stuff(name,rno,hostelname,roomno,branchname,ema
 				var data4 = {
 					[`${key}`]:{
 						[`${Number(rno)}`]:{
-							Name: name,
+							Name: String(name).toLowerCase(),
 							TotalAttendance: Number(ta),
-							HostelName: hostelname,
-							RoomNo: roomno,
-							EmailID: emailid,
+							HostelName: String(hostelname).toLowerCase(),
+							RoomNo: String(roomno).toLowerCase(),
+							EmailID: String(emailid).toLowerCase(),
 							PhoneNo: Number(phoneno),
-							BranchName: branchname
+							BranchName: String(branchname).toLowerCase()
 						}
 					}
 				};
@@ -931,13 +944,13 @@ async function add_data_to_admin(){
 	  			var data = {
 	  				[`${fullDate}`]:{
 						[`${Number(key)}`]:{
-							Name: student[key].Name,
+							Name: String(student[key].Name).toLowerCase(),
 							TotalAttendance: Number(student[key].TotalAttendance),
-							HostelName: student[key].HostelName,
-							RoomNo: student[key].RoomNo,
-							EmailID: student[key].EmailID,
+							HostelName: String(student[key].HostelName).toLowerCase(),
+							RoomNo: String(student[key].RoomNo).toLowerCase(),
+							EmailID: String(student[key].EmailID).toLowerCase(),
 							PhoneNo: Number(student[key].PhoneNo),
-							BranchName: student[key].BranchName,
+							BranchName: String(student[key].BranchName).toLowerCase(),
 							Year:Number(year)
 						}
 					}
@@ -960,7 +973,7 @@ async function authenticate(email,password,res,req){
 	var error = '';
 	var c=0;
 	for(key in doc.data()){
-		if(key==email){
+		if(key==String(email).toLowerCase()){
 			c=1;
 			password = md5(md5(md5(password)));
 			//bcrypt.compare(password, adminList[key], function(err, result) {
@@ -1040,14 +1053,14 @@ app.post('/admin_add_excel_file', function(req, res) {
                     for (key in result){
                     	var data = {
 							[`${Number(result[key].rno)}`]:{
-								Name: result[key].name,
+								Name: String(result[key].name).toLowerCase(),
 								Attendance: false,
 								TotalAttendance: Number(0),
-								HostelName: result[key].hostelname,
-								RoomNo: result[key].roomno,
-								EmailID: result[key].emailid,
+								HostelName: String(result[key].hostelname).toLowerCase(),
+								RoomNo: String(result[key].roomno).toLowerCase(),
+								EmailID: String(result[key].emailid).toLowerCase(),
 								PhoneNo: Number(result[key].phoneno),
-								BranchName: result[key].branchname
+								BranchName: String(result[key].branchname).toLowerCase()
 							}
 						};
 						console.log(data);
