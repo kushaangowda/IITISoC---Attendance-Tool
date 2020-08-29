@@ -2,18 +2,20 @@
 <html>
 	<head>
 		<title>Remove Students</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&amp;display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<link rel="stylesheet" href="css/admin_change_details.css" type="text/css">
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script type="text/javascript" async=""
-			src="http://www.googletagmanager.com/gtag/js?id=G-SD5ZLVWXK3&amp;l=dataLayer&amp;cx=c"></script>
+		<script type="text/javascript" async="" src="http://www.googletagmanager.com/gtag/js?id=G-SD5ZLVWXK3&amp;l=dataLayer&amp;cx=c"></script>
 		<script src="https://www.googletagmanager.com/gtag/js?l=dataLayer" async=""></script>
+		<link rel="stylesheet" href="css/admin_change_details.css" type="text/css">
 	</head>
 	<body>
 		<!-- <nav>
@@ -49,6 +51,7 @@
 			<% var keys = Object.keys(students)%>
 			<% keys.forEach(function(key){ %>
 			<% if((key)==id){%>
+			<div class="table-responsive">
 				<table class="table table-dark" style="width:700px; margin:auto">
 					<thead>
 						<tr>
@@ -91,6 +94,7 @@
 						</tr>
 					</tbody>
 				</table>
+			</div>
 			<hr>
 			<% }});%>
 			<% var link = '/remove/?id='+id+'&year='+year%>

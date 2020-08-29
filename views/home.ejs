@@ -10,8 +10,16 @@
 		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
 
   		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
   		<link rel="stylesheet" type="text/css" href="css/home.css">
+
 	</head>
 	
 	<body>
@@ -33,45 +41,51 @@
 
 
 			<a href="/"><button type="submit" class="btn btn-warning">Not Student? Click here</button></a>
-			<div class="table-responsive">
-			<%if(typeof year!='undefined'){%>
-				<h5>Year of admission: <%=year%></h5>
-			<%}%>
-			<table class="table table-dark rounded"><br/>
-				<% if (typeof students!='undefined'){%>
-				<form method='post'>
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text text-dark" id=" inputGroup-sizing-default">Search: </span>
-					</div><input type="text" name="search" class="form-control text-dark bg-light"
-					aria-label="Sizing example input" id='search' aria-describedby="inputGroup-sizing-default" onkeyup="searchName()" placeholder="Search for name or roll number" />
-				</div>
-				</form>
-					<%var i=1;%>
-
-					<thead><tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Roll No</th><th scope="col">Attendance</th><th scope="col">Mark Attendance</th></tr></thead>
-					<% var keys = Object.keys(students)%>
-					<% keys.forEach(function(key){ %>
-						<tbody>
-						<tr class='student_details'>
-							<th scope="row"><%=(i)%></th>
-							<% i=i+1;%>
-							<td class='studentName'><%=(students[key].Name)%></td>
-							<td class='studentRno'><%=(key)%></td>
-							<td><%=(students[key].Attendance)%></td>
-							<% var link = '/mark_attendance/?id='+key+'&year='+year%>
-							<%if((students[key].Attendance)==false){%>
-								<td><a href="<%=link%>"><button type="submit" class="btn btn-primary">Mark Attendance</button></a></td>
-							<%}%>
-						</tr>
-					<%});%>
+			
+				<%if(typeof year!='undefined'){%>
+					<br/>
+					<h5>Year of admission: <%=year%></h5>
 				<%}%>
-			</tbody>
-			</table><br/>
+				
+					<% if (typeof students!='undefined'){%>
+					<form method='post'>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text text-dark" id=" inputGroup-sizing-default">Search: </span>
+						</div><input type="text" name="search" class="form-control text-dark bg-light"
+						aria-label="Sizing example input" id='search' aria-describedby="inputGroup-sizing-default" onkeyup="searchName()" placeholder="Search for name or roll number" />
+					</div>
+					</form>
+					<div class="table-responsive">
+						<table class="table table-dark rounded"><br/>
+						<%var i=1;%>
+
+						<thead><tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Roll No</th><th scope="col">Attendance</th><th scope="col">Mark Attendance</th></tr></thead>
+						<% var keys = Object.keys(students)%>
+						<% keys.forEach(function(key){ %>
+							<tbody>
+							<tr class='student_details'>
+								<th scope="row"><%=(i)%></th>
+								<% i=i+1;%>
+								<td class='studentName'><%=(students[key].Name)%></td>
+								<td class='studentRno'><%=(key)%></td>
+								<td><%=(students[key].Attendance)%></td>
+								<% var link = '/mark_attendance/?id='+key+'&year='+year%>
+								<%if((students[key].Attendance)==false){%>
+									<td><a href="<%=link%>"><button type="submit" class="btn btn-primary">Mark Attendance</button></a></td>
+								<%}%>
+							</tr>
+						<%});%>
+					<%}%>
+				</tbody>
+				</table><br/>
+			</div>
 
 
 			<%if(typeof error!='undefined'){%>
+			<div class="alert alert-danger" role="alert">
 				<p><%= error%></p>
+			</div>
 			<%}%>
 
 
