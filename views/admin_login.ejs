@@ -35,29 +35,27 @@
 
 			<form method="POST">
 				<div class="form-group">
-				  <label for="exampleInputEmail1">Email address</label>
-				  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
-				  <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+				  	<label for="exampleInputEmail1">Email address</label>
+				  	<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+				  	<!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
 				</div>
 				<div class="form-group">
-				  <label for="exampleInputPassword1">Password</label>
-				  <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+				  	<label for="exampleInputPassword1">Password</label>
+				  	<input type="password" class="form-control" name="password" id="exampleInputPassword1">
 				</div>
 				
 				<button type="submit" class="btn btn-primary">Login</button>
 				<% if(typeof error!= 'undefined'){%>
-					
 					<div id="alert"  class="alert alert-danger" role="alert">
 						<p><%= error%></p>
-					  </div>
-					<%}%>
-				</form>
-				<!-- <p>for now... username = abc@gmail.com, password = password</p>
-				<p><a href="/admin_forgot_password">Forgot password</a></p>
-				<p>Not Admin, <a href="/">Click here</a></p> -->
-				<a href="/admin_forgot_password"><button type="button" class="btn btn-warning forgot">Forgot Password?</button></a><br>
-				<a href="/"><button type="button" class="btn btn-danger back" style="">Not Admin? Click Here</button></a>
+					</div>
+				<%}%>
+			</form>
+			<!-- <p>for now... username = abc@gmail.com, password = password</p>
+			<p><a href="/admin_forgot_password">Forgot password</a></p>
+			<p>Not Admin, <a href="/">Click here</a></p> -->
+			<a href="/admin_forgot_password"><button type="button" class="btn btn-warning forgot">Forgot Password?</button></a><br>
+			<a href="/"><button type="button" class="btn btn-danger back" style="">Not Admin? Click Here</button></a>
 		</div>
-		
 	</body>
 </html>

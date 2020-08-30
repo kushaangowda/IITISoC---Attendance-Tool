@@ -43,8 +43,8 @@
 			<a href="/"><button type="submit" class="btn btn-warning">Not Student? Click here</button></a>
 			
 				<%if(typeof year!='undefined'){%>
-					<br/>
-					<h5>Year of admission: <%=year%></h5>
+					
+					<h4><br/>Year of admission: <%=year%></h4>
 				<%}%>
 				
 					<% if (typeof students!='undefined'){%>
@@ -83,6 +83,7 @@
 
 
 			<%if(typeof error!='undefined'){%>
+			<br/>
 			<div class="alert alert-danger" role="alert">
 				<p><%= error%></p>
 			</div>
