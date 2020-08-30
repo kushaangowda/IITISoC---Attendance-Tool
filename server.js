@@ -47,11 +47,11 @@ const total_days_list = db.collection("total_days").doc("total_days");
 
 var port = process.env.PORT || 3000;
 
-schedule.scheduleJob({hour: 1, minute: 0}, function(){
+schedule.scheduleJob({hour: 9, minute: 12}, function(){
     reset_data();
 });
 
-schedule.scheduleJob({hour: 0, minute: 0}, function(){
+schedule.scheduleJob({hour: 9, minute: 11}, function(){
     add_data_to_admin();
 });
 
@@ -95,14 +95,6 @@ app.use((req, res, next) => {
     }
     next();
 });
-
-var sessionChecker = (req, res, next) => {
-    if (req.session.user && req.cookies.user_sid) {
-        res.redirect('/dashboard');
-    } else {
-        next();
-    }    
-};
 
 
 // app.use(cookieParser);
@@ -389,7 +381,7 @@ async function admin_change_password_stuff(old_pass,new_pass1,new_pass2,req,res)
 	if (!doc.exists) {
     	console.log('No such document!');
   	} else {
-    	console.log('Document data:', doc.data());
+    	console.log('Document found');
     	for(key in doc.data()){
     		if(key==req.session.user){
     			if(md5(md5(md5(old_pass)))!=adminList[key]){
@@ -417,7 +409,7 @@ async function home_student_stuff(year,res) {
     console.log('No such document!');
     res.render('home.ejs',{error:'Invalid year'});
   } else {
-    console.log('Document data:', doc.data());
+    console.log('Document found');
     res.render('home.ejs',{students:doc.data(),year:year});
   }
 }
@@ -427,6 +419,7 @@ async function mark_attendance_stuff(res,req) {
   const doc = await db.collection('Student').doc(req.query.year+' list').get();
   if (!doc.exists) {
     console.log('No such document!');
+    res.render('Mark_attendance.ejs',{error:'Data not found'});
   } else {
   	var doc1 = await total_days_list.get();
 	var t = doc1.data();
@@ -434,7 +427,7 @@ async function mark_attendance_stuff(res,req) {
 	for(key in t){
 		total_days = t[key];	
 	}
-    console.log('Document data:', doc.data());
+    console.log('Document found');
     res.render('Mark_attendance.ejs',{students:doc.data(),year:req.query.year,id:req.query.id,total_days:total_days});
   }
 }
@@ -446,17 +439,17 @@ async function admin_forgot_password_stuff(user,res) {
     console.log('No such document!');
   } else {
   	var c=0;
-    console.log('Document data:', doc.data());
+    console.log('Document found');
     for(key in doc.data()){
     	if(key==user){
     		c=1;
     		var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
 		    var token = ''; 
-		    for (var i = 20; i > 0; --i) { 
+		    for (var i = 30; i > 0; --i) { 
 		      token += chars[Math.round(Math.random() * (chars.length - 1))]; 
 		    } 
 		    var d = new Date();
-		    hours = d.getHours();
+		    hours = d.getHours()+1;
 		    minutes = d.getMinutes();
 			
 			user = user.split('.');
@@ -522,7 +515,7 @@ async function admin_change_details_stuff(year1,res,req) {
 	for(key in t){
 		total_days = t[key];	
 	}
-    console.log('Document data:', doc.data());
+    console.log('Document found');
     res.render('admin_change_details.ejs',{user:req.session.user,students:doc.data(),year:year1,total_days:total_days});
   }
 }
@@ -540,7 +533,7 @@ async function admin_remove_stuff(res,req) {
 	    for(key in t){
 	    	total_days = t[key];	
 	    }
-    console.log('Document data:', doc.data());
+    console.log('Document found');
     res.render('admin_remove.ejs',{students:doc.data(),id:req.query.id,year:req.query.year,user:req.session.user,total_days:total_days});
   }
 }
@@ -552,7 +545,7 @@ async function admin_change_stuff(res,req) {
   if (!doc.exists) {
     console.log('No such document!');
   } else {
-    console.log('Document data:', doc.data());
+    console.log('Document found');
     res.render('admin_change.ejs',{students:doc.data(),id:req.query.id,year:req.query.year,user:req.session.user});
   }
 }
@@ -609,7 +602,7 @@ app.post('/admin_home', function(req, res){
 	// var year = req.body.year;
 	var hostel = req.body.hostel;
     var date = (req.body.date);
-    console.log(date);
+    // console.log(date);
     admin_home_post_stuff(date,hostel,res,req);
 });
 
@@ -644,7 +637,7 @@ async function admin_reset_password_post_stuff(res,s,pass1,pass2){
     // 				return data1;
 				// });
 				pass1 = md5(md5(md5(pass1)));
-				console.log(pass1)
+				// console.log(pass1)
 				var data = {
 					[`${username}`]:pass1
 				}
@@ -659,15 +652,11 @@ async function admin_reset_password_post_stuff(res,s,pass1,pass2){
 		    	t+=user[u]+'\.';  
 			}
 			t=t.slice(0,t.length-1);
-			console.log('t:',t);
+			// console.log('t:',t);
 			// var len = username.length;
 			// username = username.slice(0,len-4);
 			const FieldValue = admin.firestore.FieldValue;
 			const cityRef = db.collection('reset token').doc('token');
-			var datakk={
-				
-			}
-			console.log(datakk);
 			cityRef.set({
 				[`${String(t)}`]: FieldValue.delete()
 			},{merge:true});
@@ -705,7 +694,7 @@ async function admin_add_stuff(name,rno,hostelname,roomno,branchname,emailid,pho
     console.log('No such document!');
     res.render('admin_add.ejs',{user:req.session.user,error:'document for the given year of admission not found'});
   } else {
-    console.log('Document data:', doc.data());
+    console.log('Document found');
     // var i=0;
     // var c=0;
     // for (key in doc.data()){ 
@@ -750,7 +739,7 @@ async function admin_change_post_stuff(name,rno,hostelname,roomno,branchname,ema
     console.log('No such document!');
   } else {
   		var ta=0;
-    	console.log('Document data found', doc1.data());
+    	console.log('Document data found');
     	for(key in doc1.data()){
     		if(Number(key)==Number(id)){
     			ta=list1[key].TotalAttendance;
@@ -781,7 +770,7 @@ async function admin_change_post_stuff(name,rno,hostelname,roomno,branchname,ema
 		var list2 = doc2.data();
 		for(key in list2){
 			var x = list2[key][id];
-			console.log(x);
+			// console.log(x);
 			if(typeof [`${key}.${Number(id)}`]!='undefined'){
 				var data3 = {
 					[`${key}.${Number(id)}`]: admin.firestore.FieldValue.delete()
@@ -816,7 +805,7 @@ async function admin_change_password_stuff1(password,req,res) {
   if (!doc.exists) {
     console.log('No such document!');
   } else {
-    console.log('Document data found', doc.data());
+    console.log('Document data found');
     password = md5(md5(md5(password)));
     var data = {
 		[`${req.session.user}`]:password
@@ -846,7 +835,7 @@ async function admin_home_post_stuff(fulldate,hostel,res,req) {
     	console.log('No such document!');
     	res.render('admin_home.ejs',{user:req.session.user,error:'data not found'});
   	} else {
-    	console.log('Document data found', doc.data());
+    	console.log('Document data found');
     	var doc1 = await total_days_list.get();
 	    var t = doc1.data();
 	    var total_days = 0;
@@ -902,10 +891,10 @@ async function reset_token_list(){
 	var d = new Date();
 	var hour = d.getHours();
 	var min = d.getMinutes();
-	var sec_now = Number(hour)*60+Number(min)
+	// var sec_now = Number(hour)*60+Number(min)
 	for(key in listData){
-		var sec = Number(listData[key].minutes) + Number(listData[key].hours)*60;
-		if(sec_now>=sec+60){
+		// var sec = Number(listData[key].minutes) + Number(listData[key].hours)*60;
+		if((Number(listData[key].minutes)<=min && Number(listData[key].hours)<=hour)||(listData[key].hours==11 && hour>=0)){
 			const FieldValue = admin.firestore.FieldValue;
 			var datakk={
 				[`${key}`]: FieldValue.delete()
@@ -925,6 +914,10 @@ async function add_data_to_admin(){
 	var doc = await total_days_list.get();
 	var totDay = doc.data();
 	var totalDays = 0;
+	var rnos=[];
+	var hnames=[];
+	var tas=[];
+	
 	for(key in doc.data()){
 		totalDays = Number(totDay[key]);
 	}
@@ -957,14 +950,31 @@ async function add_data_to_admin(){
 				};
 				db.collection('admin').doc('student list '+student[key].HostelName).set(data,{merge:true});
 	  		}else{
+	  			
 	  			var t = 1 + Number(student[key].TotalAttendance);
-	  			var id={};
-	    		id[`${key}.TotalAttendance`] = t;
-	  			db.collection('Student').doc(doc.id).update(id);
+	  			var id1={};
+	    		id1[`${key}.TotalAttendance`] = t;
+	    		rnos.push(key);
+	    		hnames.push(student[key].HostelName);
+	    		tas.push(t);
+	  			db.collection('Student').doc(doc.id).update(id1);
 	  		}
 	  	}
 
 	});
+	for(key in rnos){
+		var docRef2 = db.collection('admin').doc('student list '+hnames[key]);
+		var doc2 = await docRef2.get();
+		var list2 = doc2.data();
+		for(key2 in list2){
+			if([`${key2}.${Number(rnos[key])}`]){
+				var id2={};
+				id2[`${key2}.${Number(rnos[key])}.TotalAttendance`] = tas[key];
+				docRef2.update(id2);
+			}
+		}
+	}
+
 }
 
 async function authenticate(email,password,res,req){
@@ -1063,8 +1073,8 @@ app.post('/admin_add_excel_file', function(req, res) {
 								BranchName: String(result[key].branchname).toLowerCase()
 							}
 						};
-						console.log(data);
-						console.log(req.body.year+' list');
+						// console.log(data);
+						// console.log(req.body.year+' list');
 						// if(Number(key)==0){
 						// 	db.collection('Student').doc(req.body.year+' list').set(data);
 						// }else{
@@ -1075,13 +1085,10 @@ app.post('/admin_add_excel_file', function(req, res) {
                     
                 });
             } catch (e){
-                    res.render('admin_add_excel_file.ejs',{user:req.session.user,error:"Corupted excel file"});
+                console.log("Corrupted excel file");
             }
         })
 })
-
-
-
 
 app.use(function (req,res,next){
 	res.status(404).render('404error.ejs');
