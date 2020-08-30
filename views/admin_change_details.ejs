@@ -103,7 +103,7 @@
 			<a href="/admin_change_details">Manage</a>
 			<a href="/admin_profile">Profile</a>
 		</nav> -->
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="position: sticky;top: 0px;">
 			<a class="navbar-brand" href="#">Hello, <%=user%></a>
 			
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -144,8 +144,10 @@
 			</form>
 
 		<% if(typeof students!='undefined'){%>
-			<h4 id="yeartop">Year: <%=year%></h4>
-			<div class="input-group mb-3 s2">
+			<div style="position: sticky;top: 56px; background-color: #e7e7e7;">
+				<br/><h4 id="yeartop">Year: <%=year%></h4><br/>
+			</div>
+			<div class="input-group mb-3 s2" style="position: sticky;top: 150px; background-color: #e7e7e7;">
 				<div class="input-group-prepend">
 					<span class="input-group-text text-dark" id=" inputGroup-sizing-default">Search: </span>
 				</div><input type="text" name="search" class="form-control text-dark bg-light" aria-label="Sizing example input" id="search" aria-describedby="inputGroup-sizing-default" onkeyup="searchName()" placeholder="Search for name or roll number">

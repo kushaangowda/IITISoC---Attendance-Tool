@@ -23,7 +23,7 @@
 	</head>
 	
 	<body>
-		<nav class="navbar navbar-light bg-dark" style="margin-bottom: 53px;">
+		<nav class="navbar navbar-light bg-dark" style="margin-bottom: 53px; position: sticky; top: 0px;">
 			<span class="navbar-brand mb-0 h1 text-light">Mark Your Attendance</span>
 		</nav>
 		<div class="container-fluid">
@@ -43,12 +43,13 @@
 			<a href="/"><button type="submit" class="btn btn-warning">Not Student? Click here</button></a>
 			
 				<%if(typeof year!='undefined'){%>
-					
-					<h4><br/>Year of admission: <%=year%></h4>
+				<div style="position: sticky;top: 56px;background-color: #e7e7e7;">	
+					<h4><br/>Year of admission: <%=year%></h4><br/>
+				</div>
 				<%}%>
 				
 					<% if (typeof students!='undefined'){%>
-					<form method='post'>
+					<form method='post' style="position: sticky;top: 145px; background-color: #e7e7e7;">
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text text-dark" id=" inputGroup-sizing-default">Search: </span>
