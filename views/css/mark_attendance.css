@@ -23,8 +23,8 @@ body
   width: 100%;
   height: auto;
   
-  /* Set up positioning */
-  position: fixed;
+  /* Set up positioning *//*
+  position: fixed;*/
   top: 0;
   left: 0;
   font-family: 'Josefin Sans', sans-serif;
