@@ -3,6 +3,22 @@
 	<head>
 		<title> Mark Attendance</title>
 
+  		<!-- <link rel="stylesheet" type="text/css" href="/css/mark_attendance.css">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+		
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
   		<link rel="stylesheet" type="text/css" href="/css/mark_attendance.css">
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -46,143 +62,85 @@
   		</script>
   		
 	</head>
-	<body>
-		<nav class="navbar navbar-light bg-dark" >
+	<body style="background-color: #d7d7d7;">
+		<nav class="navbar navbar-light bg-dark" style="margin-bottom: 53px; position: sticky; top: 0px;">
 			<span class="navbar-brand mb-0 h1 text-light m-auto" >Mark Your attendance here</span>
 		</nav>
-
 		<div class="container-fluid text-center mt-4">
-			<% var keys = Object.keys(students)%>
-			<%var c=0;%>
-			<% var d=0;%>
-			<% keys.forEach(function(key){ %>
-			<% if((key)==id){%>
-				<%d=1;%>
-			<!-- <p>Name: <%= students[key].Name%></p>
-			<p>Roll No: <%= key%></p>
-			<p>Hostel Name: <%= students[key].HostelName%>
-			<p>Room No: <%= students[key].RoomNo%>
-			<p>Branch Name: <%= students[key].BranchName%>
-			<p>Email ID: <%= students[key].EmailID%>
-			<p>Phone No: <%= students[key].PhoneNo%>
-			<p>Year of admission: <%= year%></p> -->
-	
-			
-			
-			<table class="table table-dark" style="width:700px; margin:auto">
-				<thead>
-					<tr>
-					<th scope="col">Key</th>
-					<th scope="col">Value</th>
-				</tr>
-			</thead>
-				<tbody>
-					<tr>
-					<td>Name</td>
-					<td> <%= students[key].Name%></td>
-				  </tr>
-				  <tr>
-					<td>Roll No</td>
-					<td> <%= key%></td>
-				  </tr>
-				  <tr>
-					<td>Hostel Name</td>
-					<td> <%= students[key].HostelName%></td>
-				</tr>
-				<tr>
-					<td>Room No</td>
-					<td><%= students[key].RoomNo%></td>
-				</tr>
-				  <tr>
-					  <td>Branch Name</td>
-					<td><%= students[key].BranchName%></td>
-				</tr>
-				<tr>
-					<td>Email ID</td>
-					<td><%= students[key].EmailID%></td>
-				</tr>
-				<tr>
-					<td>Phone No</td>
-					<td><%= students[key].PhoneNo%></td>
-				</tr>
-				<tr>
-					<td>Total Attendance</td>
-					<td><%= students[key].TotalAttendance+'/'+total_days%>%></td>
-				</tr>
-			</tbody>
-		</table>
-		<hr>
-		<%if(students[key].Attendance==true){%>
-			<%c=1;}%>
-		<% }});%>
-		<!-- <% var link = '/remove/?id='+id+'&year='+year%>
-			<a href="<%=link%>"><button type="button" class="btn btn-info">Remove This Student</button></a><br /> -->
-		
-			<%if(d==0){%>
-				<!-- <p style="color: red;"></p> -->
-				<div class="alert alert-danger" role="alert">
-					Roll number not found
-				  </div>
-				<%}%>
-				<% var link = '/update/?id='+id+'&year='+year+'';%>
-				<%if(c==1){%>
-					<!-- <p style="color: green">Attendance marked already</p> -->
-					<div class="alert alert-success" role="alert">
-						Attendance marked already
-					  </div>
-				<%}%>
-				<%if(c==0 && d==1){%>
-				<button onclick='both()' class="btn btn-primary d-inline">Mark attendance</button>
-				<%}%>
-
-				<a href='/home_student'><button type="submit" class="btn btn-primary mx-2">Back to home</button></a>
-
-				<p id='link' style="display: none;"><%=link%></p>
-		
-		
-		
-		
-		</div>
-
-
-
-
-
-
-		<!-- <div class="container">
 			<br/>
+			<%if(typeof error!='undefined'){%>
+				<div class='alert alert-danger' role='alert'>
+					<p><%=error%></p>
+				</div>
+			<%}else{%>
 			<%var c=0;%>
 			<% var d=0;%>
 			<% var keys = Object.keys(students)%>
 				<% keys.forEach(function(key){ %>
 				<% if((key)==id){%>
 				<%d=1;%>
-				<p>Name: <%= students[key].Name%></p>
-				<p>Roll No: <%= key%></p>
-				<p>Hostel Name: <%= students[key].HostelName%></p>
-				<p>Room No: <%= students[key].RoomNo%></p>
-				<p>Email ID: <%= students[key].EmailID%></p>
-				<p>Phone No: <%= students[key].PhoneNo%></p>
-				<p>Branch Name: <%= students[key].BranchName%></p>
-				<p>Total Attendance: <%= students[key].TotalAttendance+'/'+total_days%></p>
+				<table class="table table-dark" style="width:700px; margin:auto">
+					<thead>
+						<tr>
+							<th scope="col">Key</th>
+							<th scope="col">Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Name</td>
+							<td> <%= students[key].Name%></td>
+					  	</tr>
+					  	<tr>
+							<td>Roll No</td>
+							<td> <%= key%></td>
+					  	</tr>
+					  	<tr>
+							<td>Hostel Name</td>
+							<td> <%= students[key].HostelName%></td>
+						</tr>
+						<tr>
+							<td>Room No</td>
+							<td><%= students[key].RoomNo%></td>
+						</tr>
+					  	<tr>
+							<td>Branch Name</td>
+							<td><%= students[key].BranchName%></td>
+						</tr>
+						<tr>
+							<td>Email ID</td>
+							<td><%= students[key].EmailID%></td>
+						</tr>
+						<tr>
+							<td>Phone No</td>
+							<td><%= students[key].PhoneNo%></td>
+						</tr>
+						<tr>
+							<td>Total Attendance</td>
+							<td><%= students[key].TotalAttendance+'/'+total_days%>%></td>
+						</tr>
+					</tbody>
+				</table>
+				<hr>
 				<%if(students[key].Attendance==true){%>
 				<%c=1;}%>
 				
 				<% }});%>
 				<%if(d==0){%>
-				<p style="color: red;">Roll number not found</p>
+				<p class='alert alert-danger' role='alert'>Roll number not found</p>
 				<%}%>
 				<% var link = '/update/?id='+id+'&year='+year+'';%>
 				<%if(c==1){%>
-					<p style="color: green">Attendance marked already</p>
+					<p class='alert alert-success' role='alert'>Attendance marked already</p>
 				<%}%>
 				<%if(c==0 && d==1){%>
 				<button onclick='both()' class="btn btn-primary d-inline">Mark attendance</button>
+				<%}%>
 				<%}%>
 
 				<a href='/home_student'><button type="submit" class="btn btn-primary mx-2">Back to home</button></a>
 
 				<p id='link' style="display: none;"><%=link%></p>
-		</div> -->
+		</div>
 	</body>
 </html>

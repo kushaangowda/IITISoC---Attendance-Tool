@@ -143,11 +143,13 @@
 				</div>
 			</form>
 
+		<a href="/admin_add_choice" ><button type="button" class="btn btn-info">Add Students</button></a>
+
 		<% if(typeof students!='undefined'){%>
 			<div style="position: sticky;top: 56px; background-color: #e7e7e7;">
-				<br/><h4 id="yeartop">Year: <%=year%></h4><br/>
+				<h4 id="yeartop">Year: <%=year%></h4><br/>
 			</div>
-			<div class="input-group mb-3 s2" style="position: sticky;top: 150px; background-color: #e7e7e7;">
+			<div class="input-group mb-3 s2" style="position: sticky;top: 128px; background-color: #e7e7e7;">
 				<div class="input-group-prepend">
 					<span class="input-group-text text-dark" id=" inputGroup-sizing-default">Search: </span>
 				</div><input type="text" name="search" class="form-control text-dark bg-light" aria-label="Sizing example input" id="search" aria-describedby="inputGroup-sizing-default" onkeyup="searchName()" placeholder="Search for name or roll number">
@@ -214,6 +216,5 @@
 		<%}%>
 		<a id="link12" href="" style="display: none;"><button type="button" class="btn btn-info link12">Remove Selected</button></a>
 		<br/>
-		<a href="/admin_add_choice" ><button type="button" class="btn btn-info">Add Students</button></a>
 	</body>
 </html>
